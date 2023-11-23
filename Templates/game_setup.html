@@ -1,0 +1,60 @@
+
+
+{% extends 'testerbase.html' %}
+
+
+{% block title %}Game Setup{% endblock %}
+
+{% block pageTitle %}<h1 class="text-center title" style="font-size: 120%;">Game Setup</h1>{% endblock %}
+
+{%block header%} <br>
+
+<header class="w3-container w3-white w3-center" style="padding:128px 16px">
+    <h1 class="w3-margin w3-jumbo"></h1>
+      <img src="{{ url_for('static', filename='logotest2nonbg.png') }}" alt="Articulate Online Logo">
+      {% endblock %}
+
+{% block pageDescription %}<p class="lead text-center" style="font-size: 120%;">Configure your game</p>{% endblock %}
+
+
+{% block content %}
+<div class="w3-container">
+    <div class="w3-card-4 w3-center" style="max-width: 600px; margin: 0 auto;">
+        <form method="POST" class="w3-form">
+            {{ game_setup_form.hidden_tag() }}
+            <div class="w3-container w3-padding">
+                <label for="{{ game_setup_form.game_mode.id }}" class="w3-label w3-text-teal" style="font-size: 120%;">Game Mode</label>
+                {{ game_setup_form.game_mode(class="w3-input w3-border", style="font-size: 120%;") }}
+            </div>
+            <div class="w3-container w3-padding">
+                <label for="{{ game_setup_form.num_teams.id }}" class="w3-label w3-text-teal" style="font-size: 120%;">Number of Teams</label>
+                {{ game_setup_form.num_teams(class="w3-input w3-border", style="font-size: 120%;") }}
+            </div>
+            <div class="w3-container w3-padding">
+                <label for="{{ game_setup_form.time_limit.id }}" class="w3-label w3-text-teal" style="font-size: 120%;">Time Limit</label>
+                {{ game_setup_form.time_limit(class="w3-input w3-border", style="font-size: 120%;") }}
+            </div>
+            <div class="w3-container w3-padding">
+                <label for="{{ game_setup_form.game_type.id }}" class="w3-label w3-text-teal" style="font-size: 120%;">Game Type</label>
+                {{ game_setup_form.game_type(class="w3-input w3-border", style="font-size: 120%;") }}
+            </div>
+            <div class="w3-container w3-padding">
+                <label for="{{ game_setup_form.num_rounds.id }}" class="w3-label w3-text-teal" style="font-size: 120%;">Number of Rounds</label>
+                {{ game_setup_form.num_rounds(class="w3-input w3-border", style="font-size: 120%;") }}
+            </div>
+            <div class="w3-container w3-padding">
+                <label for="{{ game_setup_form.category.id }}" class="w3-label w3-text-teal" style="font-size: 120%;">Category</label>
+                {{ game_setup_form.category(class="w3-input w3-border", style="font-size: 120%;") }}
+            </div>
+            <div class="w3-container w3-padding">
+                <input type="submit" value="Submit Game Setup" class="w3-button w3-teal w3-hover-green" style="font-size: 120%;">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+
+</body>
+</html>

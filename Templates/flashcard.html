@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<br>
+<button id="generateCardButton" name="action" value="add_score"> Add Score </button>
+<div id="cardInfo"></div>
+<br>
+
+   
+<!-- Pass Button. Working to also generate a new card -->
+<button id="nextCardButton" name="action" value="pass"> Pass (No Score Added) </button>
+<div id="cardInfo"></div>
+<br>
+
+
+  <!-- Display of current card populated using js  -->
+    <div class="flashcard">
+        <h1> Current Card </h1>
+        <div id="flashcard-content">
+            <div class="flashcard-attribute">
+                <span class="attribute-label key-word-category">Key Word:</span>
+                <span class="attribute-value" id="keyWord"></span>
+            </div>
+            <div class="flashcard-attribute">
+                <span class="attribute-label key-character-category">Key Character:</span>
+                <span class="attribute-value" id="keyCharacter"></span>
+            </div>
+            <div class="flashcard-attribute">
+                <span class="attribute-label exam-skills-category">Exam Skills:</span>
+                <span class="attribute-value" id="examSkills"></span>
+            </div>
+            <div class="flashcard-attribute">
+                <span class="attribute-label grammar-rules-category">Grammar Rules:</span>
+                <span class="attribute-value" id="grammarRules"></span>
+            </div>
+            <div class="flashcard-attribute">
+                <span class="attribute-label spellings-category">Spellings:</span>
+                <span class="attribute-value" id="spellings"></span>
+            </div>
+        </div>
+    </div>

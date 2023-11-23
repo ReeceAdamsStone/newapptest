@@ -1,0 +1,186 @@
+{% extends 'testerbase.html' %}
+
+{% block title %} {% endblock %}
+
+{%block header%} {%endblock%}
+
+{% block content %}
+
+{% include 'game_logic.html' %}
+
+<html lang="en">
+
+
+
+<body>
+    
+    <br><br><br><br><br><br><br>
+    <button id="nextCardButton">Pass a Card</button>
+    <button id="startGameButton">Ready to start?</button>
+    <button id="nextTurnButton">Next player ready?</button>
+    <button id="generateCardButton">Add a Score</button>
+    <button id="revealWinnersButton">Reveal Winners</button>
+
+    <div id="cardContainer"> </div>
+    <div id="currentCategoryDisplay"> </div>
+    
+
+
+    <div id="currentPlayer">Current Player: Your name will appear here when it is currently your turn</div>
+    <div id="nextPlayer">Next Player: Your name will appear here when it is your turn next</div>
+    <div id="gameStatusMessage"> </div>
+
+    
+    <div id="countdownTimer"> </div>
+    
+    <p id="modalMessage"> </p>
+
+    <div id="timeLimitElement" style="display: none;">  </div>
+
+
+      <!-- Scoreboard -->
+<div>
+    <h1>Scoreboard</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Passes</th>
+          <th>Corrects</th>
+        </tr>
+      </thead>
+      <tbody id="scoreTableBody">
+        <!-- Player scores will be dynamically added here -->
+      </tbody>
+    </table>
+</div>
+    
+
+
+<div id="winnerMessage"> </div>
+
+
+<!-- game settings display -->
+<div class="w3-dropdown-hover">
+  <h1 class="w3-button">Current Settings</h1>
+  <div class="w3-dropdown-content w3-bar-block w3-card-4">
+    <p class="w3-bar-item">Number of Teams: <span id="num-teams">{{ game_settings.num_teams }}</span></p>
+    <p class="w3-bar-item">Game Mode: <span id="game-mode">{{ game_settings.game_mode}}</span></p>
+    
+    <p class="w3-bar-item">Number of Rounds: 
+      <span id="round-limit">
+          {% if game_settings.game_mode == 'Full' %}
+              5
+          {% else %}
+              {{ game_settings.num_rounds }}
+          {% endif %}
+      </span>
+  </p>
+    <p class="w3-bar-item">Time Limit: <span id="time-limit">{{ game_settings.time_limit }}</span> Seconds</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+</body>
+
+<script>
+    // Instantiate the Game, CardManager, and Scorer classes
+    const game = new Game();
+    const cardManager = new CardManager('cardContainer'); // Replace 'cardContainer' with the actual ID of your card container
+    const scorer = new Scorer(game, cardManager, "nextCardButton", "generateCardButton", game.currentPlayer);
+    const revealWinnersButton = document.getElementById("revealWinnersButton");
+    
+    if (revealWinnersButton) {
+    revealWinnersButton.style.display = "none";
+}
+    
+    
+    // Define startTurnSession and endTurnSession functions
+    function startTurnSession() {
+        scorer.startTurnSession(); 
+    }
+    
+    function endTurnSession() {
+        scorer.endTurnSession(); 
+    }
+    
+    const timer = new Timer(5, 'countdownTimer', 'timeLimitElement', startTurnSession, endTurnSession);
+    
+    
+    document.getElementById('startGameButton').addEventListener('click', () => {
+        startASession();
+        console.log("Start game button pressed");
+    });
+
+    
+
+    if (revealWinnersButton) {
+    revealWinnersButton.addEventListener("click", () => {
+        // Call a method to handle revealing winners
+        scorer.determineWinners(game);
+    });
+}
+    
+    function startASession() {
+        
+        document.getElementById('startGameButton').style.display = 'none';
+
+        game.startGameSession();
+
+        
+
+        game.startFirstPlayerTurn();
+
+        cardManager.generateRandomCard();
+        console.log("First Player Turn Started");
+        
+        // game.startNextRound();
+
+        timer.start();
+        console.log("Warning Timer Started. Beginning 5 second countdown");
+        startTurnSession();
+        
+    }
+
+
+
+
+
+
+
+
+
+
+    document.getElementById('nextTurnButton').addEventListener('click', () => {
+        turnLogic();
+        console.log("Next turn button pressed");
+    });
+    
+    function turnLogic() {
+
+        document.getElementById('startGameButton').style.display = 'none';
+
+
+        game.startNextTurn();
+        console.log("Next player turn Started");
+
+        
+
+
+        timer.start();
+        console.log("Warning Timer Started. Beginning 5 second countdown");
+    }
+
+    
+    </script>
+
+
+{%endblock%}
+</html>

@@ -1,0 +1,803 @@
+<html lang="en">
+
+<script>
+
+
+class Player {
+        constructor(name, team) {
+            this.name = name;
+            this.team = team;
+            this.turnsTaken = 0;
+            this.passScore = 0;  // Add a property for total passes
+            this.correctScore = 0;  // Add a property for total correct scores
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+class Card {
+    constructor()     {    
+    this.categories = {
+            keyWord: '',
+            keyCharacter: '',
+            examSkills: '',
+            grammarRules: '',
+            spellings: ''
+        };
+    }
+
+    updateCard(data) {
+        
+        
+        for (const category in data) {
+            if (data.hasOwnProperty(category)) {
+                this.categories[category] = data[category];
+            }
+        }
+    }
+}
+
+
+
+
+class CardManager {
+    constructor(cardElementId) {
+        this.currentCard = new Card();
+        this.cardElement = document.getElementById('cardContainer'); // Assuming you have a container in your HTML
+    }
+
+    generateRandomCard() {
+        this.clearCurrentCard(); // Clear the current card from the screen
+        fetch('/generate_random_card', {
+            method: 'GET',
+        })
+        .then(response => response.json())
+        .then(data => {
+            this.currentCard.categories = data; // Update the current card directly
+            this.renderCard(this.currentCard);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+
+    renderCard(card) {
+        // Create HTML elements to represent the card and append them to the container
+        const cardElement = document.createElement('div');
+
+        const categoryMappings = {
+            exam_skills_category: 'Exam Skills',
+            grammar_rules_category: 'Grammar Rules',
+            key_character_category: 'Key Character',
+            key_word_category: 'Key Word',
+            spellings_category: 'Spellings',
+        };
+
+        for (const category in card.categories) {
+            const categoryDisplayName = categoryMappings[category] || category;
+            const categoryElement = document.createElement('p');
+            categoryElement.textContent = `${category}: ${card.categories[category]}`;
+            cardElement.appendChild(categoryElement);
+        }
+
+        this.cardElement.appendChild(cardElement);
+    }
+
+    clearCurrentCard() {
+        // Clear the current card from the screen
+        while (this.cardElement.firstChild) {
+            this.cardElement.removeChild(this.cardElement.firstChild);
+        }
+    }
+}
+
+
+
+
+
+
+
+class Scorer {
+    constructor(game, cardManager, passButtonId, correctButtonId) {
+        // Initialize game state variable
+        this.isTurnSessionActive = false;
+        this.game = game;
+        this.currentPlayer = game.currentPlayer
+        this.cardManager = cardManager;
+        this.winningTeam = null;
+        this.maxScore = -1;
+        
+        // Fetch session data to get initial game state
+        this.fetchSessionData()
+            .then(data => {
+                this.isTurnSessionActive = data.is_turn_session_active;
+                this.toggleScoreButtons(); // Update button state based on game session
+                
+            })
+            .catch(error => {
+                console.error('Error fetching session data:', error);
+            });
+
+        // Add event listeners for score buttons
+        document.getElementById("nextCardButton").addEventListener("click", () => this.handlePass());
+        document.getElementById("generateCardButton").addEventListener("click", () => this.handleCorrect());
+    }
+
+    // Method to fetch session data
+    async fetchSessionData() {
+        try {
+            const response = await fetch('/get-session-data');
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+// Method to enable or disable and toggle visibility of score buttons
+toggleScoreButtons() {
+    const addScoreButton = document.getElementById("generateCardButton");
+    const addPassButton = document.getElementById("nextCardButton");
+
+    if (this.isTurnSessionActive) {
+        addScoreButton.removeAttribute("disabled");
+        addPassButton.removeAttribute("disabled");
+        addScoreButton.style.display = "inline";  // or 'inline' depending on your styling
+        addPassButton.style.display = "inline";   // or 'inline' depending on your styling
+    } else {
+        addScoreButton.setAttribute("disabled", "true");
+        addPassButton.setAttribute("disabled", "true");
+        addScoreButton.style.display = "none";
+        addPassButton.style.display = "none";
+    }
+}
+
+
+        // Method to start the game session
+    startTurnSession() {
+        this.isTurnSessionActive = true;
+        this.toggleScoreButtons();
+        const currentPlayerContent = document.getElementById("currentPlayer").textContent;
+        if (currentPlayerContent.trim() !== "") {
+        console.log(`Turn has started for: ${currentPlayerContent}`);
+    } else {
+        console.log("Turn has started, but currentPlayer content is empty.");
+    }
+}
+    
+    // Method to end the game session
+    endTurnSession() {
+        this.isTurnSessionActive = false;
+        this.toggleScoreButtons();
+        const currentPlayerContent = document.getElementById("currentPlayer").textContent;
+        console.log(`Turn has ended for: ${currentPlayerContent}`);
+        console.log(" ")
+    }
+
+    
+    updatePassScore(currentPlayer) {
+        // Extract the current player's name
+        this.currentPlayer = this.game.currentPlayer;
+        if(this.currentPlayer)
+
+        // Retrieve the current pass score
+        this.passScore = this.currentPlayer.passScore;
+
+        // Increment the pass score
+        this.passScore += 1;
+
+        // Update the current player's passScore
+        this.currentPlayer.passScore = this.passScore;
+
+
+        // Send the updated pass score to the server or handle it as needed
+        fetch("/update-pass-score", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                current_player: game.currentPlayer.name,
+                pass_score: game.currentPlayer.passScore,  // Send the updated pass score
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the server if needed
+            })
+            .catch(error => {
+                console.error("Error updating pass score:", error);
+            });
+
+        // Update the table using the game's method
+        this.updatePlayerScores();
+    }
+
+
+    // Method to update the correct score
+    updateCorrectScore(currentPlayer) {
+        
+        this.currentPlayer = game.currentPlayer
+        if(this.currentPlayer);
+       
+        // Retrieve the current score from the player
+        this.score = this.currentPlayer.correctScore;
+
+        // Increment the score (you can change this logic as needed)
+        this.score += 1;  // For example, adding 10 points
+
+        // Update the player's correct score
+        this.currentPlayer.correctScore = this.score;
+
+        // Send the updated score to the server or handle it as needed
+        fetch("/update-correct-score", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                current_player: game.currentPlayer.name,
+                correct_score: game.currentPlayer.correctScore,  // Send the updated score
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the server if needed
+            })
+            .catch(error => {
+                console.error("Error updating score:", error);
+            });
+
+        // Update the table using the game's method
+        this.updatePlayerScores();
+    }
+
+
+
+    // Method to handle a pass event
+    handlePass() {
+        
+        if (this.isTurnSessionActive) {
+            this.updatePassScore(this.game.currentPlayer);
+            this.cardManager.generateRandomCard();  // Assuming generateRandomCard is a method in your Game class
+        } else {
+            console.log("Game session is not active. Cannot add score.");
+        }
+    }
+
+
+
+    // Method to handle a correct score event
+    handleCorrect() {
+        if (this.isTurnSessionActive) {
+            this.updateCorrectScore(this.game.currentPlayer);
+            this.cardManager.generateRandomCard();  // Assuming renderCard is a method in your Game class
+        } else {
+            console.log("Game session is not active. Cannot add score.");
+        }
+    }
+
+    updatePlayerScores() {
+        // Get the current player's name and scores from the game
+        this.currentPlayer = this.game.currentPlayer;
+        this.correctScore = this.currentPlayer.correctScore;
+        this.passScore = this.currentPlayer.passScore;
+
+        // Find an existing row for the current player, if it exists
+        this.tableBody = document.getElementById("scoreTableBody");
+        this.rows = this.tableBody.getElementsByTagName("tr");
+        this.existingRow = null;
+
+        for (const row of this.rows) {
+            if (row.cells[0].textContent === this.currentPlayer.name) {
+                this.existingRow = row;
+                break;
+            }
+        }
+
+        if (this.existingRow) {
+            // Update the existing row's pass and correct scores
+            this.existingRow.cells[1].textContent = this.passScore;
+            this.existingRow.cells[2].textContent = this.correctScore;
+        } else {
+            // Create a new table row with player scores
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>${this.currentPlayer.name}</td>
+                <td>${this.passScore}</td>
+                <td>${this.correctScore}</td>
+            `;
+
+            // Append the new row to the table
+            this.tableBody.appendChild(newRow);
+        }
+    }
+
+    determineWinners() {
+    const gamePlayers = this.game.players;
+    const teamScores = new Map();
+
+    gamePlayers.forEach(player => {
+        const team = player.team;
+        const correctScore = player.correctScore;
+
+        if (!teamScores.has(team)) {
+            teamScores.set(team, { correctScore: 0, passes: 0 });
+        }
+        teamScores.get(team).correctScore += correctScore;
+        teamScores.get(team).passes += player.passScore;
+    });
+
+    let maxScore = -1;
+    let secondMaxScore = -1;
+    let winningTeam = null;
+    let secondPlaceTeam = null;
+
+    for (const [team, scoreObj] of teamScores) {
+        const score = scoreObj.correctScore;
+
+        if (score > maxScore) {
+            secondMaxScore = maxScore;
+            secondPlaceTeam = winningTeam;
+
+            maxScore = score;
+            winningTeam = team;
+        } else if (score > secondMaxScore) {
+            secondMaxScore = score;
+            secondPlaceTeam = team;
+        }
+    }
+
+    if (winningTeam) {
+    const differenceCorrects = maxScore - secondMaxScore;
+    const differencePasses = teamScores.get(winningTeam).passes - teamScores.get(secondPlaceTeam).passes;
+
+    const message = `Congratulations Team${winningTeam}! You are the winners with ${teamScores.get(winningTeam).passes} passes and ${maxScore} corrects! You beat second place Team ${secondPlaceTeam} by ${differencePasses} passes and ${differenceCorrects} corrects.`;
+
+    // Display the message on your webpage
+    const winnerMessageElement = document.getElementById("winnerMessage");
+    if (winnerMessageElement) {
+        winnerMessageElement.textContent = message;
+    }
+
+    return message;
+} else {
+    // Display a different message or handle as needed
+    console.log("No winners found.");
+    return null;
+}
+    }
+}
+
+
+class Game {
+        constructor() {
+            // Initialize basic game properties
+            this.currentRound = 0;
+            this.currentTeamIndex = 0;
+            this.isGameStarted = false;
+            this.gameMode = '';
+            this.numTeams = 0;
+            this.numRounds = 0;
+            this.categories =  ['Key Subject Terms', 'Key Characters', 'Exam Skills and Command Words', 'Spellings', 'Grammar Rules']; 
+            this.currentCategoryIndex = 0;
+            this.category = this.categories[this.currentCategoryIndex];
+            this.playersPerTeam = {};
+            this.usedCategories = [];
+            this.currentCategory = '';
+            this.players = [];
+            this.currentPlayer = this.players.length > 0 ? this.players[0] : null;
+            this.currentTurn = 0;
+            this.totalTurns = 0 // Calculate based on rounds and players per team
+
+            // Fetch session data to get game setup details
+            this.fetchSessionData() 
+                .then(data => {
+                    
+                    this.gameMode = data.game_setup_data.game_mode;
+                    this.numTeams = data.game_setup_data.num_teams;
+                    this.category = data.game_setup_data.category;
+                    this.teams = Object.keys(data.team_data);
+                    this.teams.forEach((teamKey) => {
+    this.players.push(...data.team_data[teamKey].map(playerName => new Player(playerName, teamKey)));
+});
+
+                    this.setGameMode();
+                    
+                                        
+                })
+                .catch(error => {
+                    console.error('Error fetching session data:', error);
+                });
+        }
+        
+        // Method to fetch session data
+        async fetchSessionData() {
+            try {
+                const response = await fetch('/get-session-data');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                throw error;
+            }
+        }
+
+
+
+// Method to start the next turn
+startNextTurn() {
+    
+    if (this.currentPlayer) {
+        
+        this.currentPlayer.turnsTaken++;
+        this.currentTurn++;
+        console.log(`Turn number: ${this.currentTurn}`);
+
+        // Check if the game has reached the maximum number of turns
+        if (this.currentTurn >= this.totalTurns) {
+            // End the game or take appropriate actions
+            this.endGameSession();
+            return;
+        }}
+
+        // Find the next player from a different team
+this.nextPlayerIndex = (this.players.indexOf(this.currentPlayer) + 1) % this.players.length;
+
+while (this.players[this.nextPlayerIndex].team === this.currentPlayer.team) {
+    this.nextPlayerIndex = (this.nextPlayerIndex + 1) % this.players.length;
+}
+
+
+this.currentPlayer = this.players[this.nextPlayerIndex];
+
+this.nextPlayer = this.players[(this.players.indexOf(this.currentPlayer) + 1) % this.players.length]
+
+this.playersPerRound = this.numTeams
+if (this.currentTurn % this.playersPerRound === 0) {
+            // All players have had their turn for this round, start the next round
+            this.startNextRound();
+        }
+
+// Update UI elements or perform any other actions
+if (this.currentPlayer) {
+    document.getElementById("currentPlayer").textContent = "Current Player: " + this.currentPlayer.name;
+    if (this.nextPlayer) {
+        document.getElementById("nextPlayer").textContent = "Next Player: " + this.nextPlayer.name;
+    } else {
+        document.getElementById("nextPlayer").textContent = "No more players. Final turn for " + this.currentPlayer.name;
+    }
+} else {
+    document.getElementById("nextPlayer").textContent = "No more players. Game over.";
+}
+}
+    
+
+        startGameSession() {
+        this.isGameStarted = true;
+        this.toggleRevealWinnersButton(false)
+
+        console.log("Game Session Started");
+        console.log(" ");
+            }
+
+        endGameSession() {
+        this.isGameStarted = false;
+        
+    console.log('Final Turn! Maximum number of turns reached.');
+        // Disable relevant buttons
+        const nextCardButton = document.getElementById("nextCardButton");
+    const generateCardButton = document.getElementById("generateCardButton");
+    const revealWinnersButton =document.getElementById('revealWinnersButton') 
+    
+    document.getElementById('revealWinnersButton').style.display = 'block';
+    this.toggleRevealWinnersButton(true);
+
+
+    if (nextCardButton) {
+        nextCardButton.disabled = true;
+        console.log("Next Card Button (Pass) Disabled [1]");
+    }
+
+    if (generateCardButton) {
+        generateCardButton.disabled = true;
+        console.log("Generate Card Button (Correct) Disabled [2]");
+    }
+
+    if (nextTurnButton) {
+        nextTurnButton.disabled = true;
+        document.getElementById('nextTurnButton').style.display = 'none';
+        console.log("Next Turn Button Hidden [3]");
+    }
+
+    if (startGameButton) {
+        startGameButton.disabled = true;
+        console.log("Start Game Button Disabled [4]");
+        console.log("Game is now over [5]");
+    }
+    
+    document.getElementById("gameStatusMessage").textContent = "Final Turn! Maximum number of turns reached.";
+    
+    
+            }        
+
+// Add a function to toggle the visibility of the "Reveal Winners" button
+toggleRevealWinnersButton(isVisible) {
+    const revealWinnersButton = document.getElementById("revealWinnersButton");
+    if (revealWinnersButton) {
+        revealWinnersButton.style.display = isVisible ? "block" : "none";
+        
+    }
+}
+
+// Method to set numRounds based on game mode
+async setGameMode() {
+    if (this.gameMode === 'Full') {
+        this.numRounds = 5;
+        console.log(`Game Mode Set to ${this.gameMode}`);
+    } else if (this.gameMode === 'Selected') {
+        try {
+            const data = await this.fetchSessionData();
+            this.numRounds = data.game_setup_data.num_rounds;
+            console.log(`Game Mode Set to ${this.gameMode}`);
+        } catch (error) {
+            console.error('Error fetching session data:', error);
+        }
+    } else if (this.gameMode === 'Custom') {
+        
+        try {
+            const data = await this.fetchSessionData();
+            // this.category = data.game_setup_data.category;
+            this.numRounds = data.game_setup_data.num_rounds;
+            console.log(`Game Mode Set to ${this.gameMode}`);
+        } catch (error) {
+            console.error('Error fetching session data:', error);
+        }
+    } else {
+        console.error('Invalid game mode:', this.gameMode);
+    }
+
+    this.totalTurns = this.numRounds * this.numTeams;
+    console.log(`Total turns for this game will be: ${this.totalTurns}`);
+    console.log(`Total rounds for this game will be: ${this.numRounds}`);
+    console.log(" ");
+}
+
+
+ // Method to start the first player's turn
+ startFirstPlayerTurn() {
+
+        
+this.currentPlayer = this.players[0]
+this.nextPlayer = this.players[1]
+
+if (this.currentPlayer) {
+
+this.currentPlayer.turnsTaken++;
+this.currentTurn++;
+console.log(`Turn number: ${this.currentTurn}`);
+}
+
+
+    if (this.currentPlayer) {
+        // Update UI elements or perform any other actions
+        document.getElementById("currentPlayer").textContent = "Current Player: " + this.currentPlayer.name;
+        if (this.nextPlayer) {
+            document.getElementById("nextPlayer").textContent = "Next Player: " + this.nextPlayer.name;
+        } else {
+            document.getElementById("nextPlayer").textContent = "No more players. Final turn for " + this.currentPlayer.name;
+        }
+    } else {
+        document.getElementById("nextPlayer").textContent = "No more players. Game over.";
+    }
+    
+};
+
+
+  
+    updateDisplayedCategory() {
+    const displayElement = document.getElementById('currentCategoryDisplay');
+    if (displayElement) {
+        // Reset styling for all categories
+        const allCategoryElements = document.querySelectorAll('.category-item');
+        allCategoryElements.forEach(categoryElement => {
+            categoryElement.classList.remove('highlighted-category');
+        });
+
+        // Highlight the selected category
+        displayElement.textContent = `Current Category: ${this.selectedCategory}`;
+        displayElement.classList.add('highlighted-category');
+    }
+}
+
+
+
+
+
+    shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    }
+
+
+// Method to start the next round
+startNextRound() {
+        debugger
+        if (this.currentRound < this.numRounds) {
+            if (this.gameMode === 'Full') {
+                // Shuffle the categories array if it's the first round
+                if (this.currentRound === 0) {
+                    this.shuffleArray(this.categories);
+                }
+            
+                // Select a category from the shuffled array
+                this.selectedCategory = this.categories[this.currentCategoryIndex];
+            } else if (this.gameMode === 'Selected') {
+                // Use the predefined category for 'Selected' game mode
+                this.selectedCategory = this.category;
+                console.log(`Displaying category: ${this.selectedCategory}`);
+                console.log(" ");
+            } else if (this.gameMode === 'Custom') {                
+            // Use the predefined category for 'Custom' game mode
+            if (this.currentRound === 0) {
+                    this.shuffleArray(this.categories);
+                    this.selectedCategory = this.categories[this.currentCategoryIndex]; }
+            console.log(`Displaying category: ${this.selectedCategory}`);
+            console.log(" ");
+        }
+            
+
+            console.log(`Starting the round. Current category is ${this.selectedCategory}`);
+
+            // Display the current category
+            console.log(`Displaying category: ${this.selectedCategory}`);
+            console.log(" ");
+            this.updateDisplayedCategory();
+
+            // Add the selected category to the used categories array
+            this.usedCategories.push(this.selectedCategory);
+
+            // Increment the category index
+            this.currentCategoryIndex = (this.currentCategoryIndex + 1) % this.categories.length;
+
+            // Increment the team index
+            this.currentTeamIndex = (this.currentTeamIndex + 1) % this.teams.length;
+
+            // Increment the round
+            this.currentRound++;
+
+            if (this.currentRound >= this.numRounds) {
+                // Show an alert for the last round
+                alert('Final category');
+                
+            }
+        } else {
+            // Show an alert for the last round
+            alert('Final category');
+            this.selectedCategory = this.category;
+            this.updateDisplayedCategory();
+        }
+    }
+
+}
+
+
+
+
+
+
+
+class Timer {
+    constructor(initialSeconds, countdownTimerId, timeLimitElementId, startCallback, endCallback) {
+        this.seconds = initialSeconds;
+        this.countdownTimer = document.getElementById(countdownTimerId);
+        this.timeLimitElement = document.getElementById(timeLimitElementId);
+        this.countdownInterval = null;
+        this.startCallback = startCallback;
+        this.endCallback = endCallback;
+   
+    }
+
+        // Method to fetch session data
+        async fetchSessionData() {
+            try {
+                const response = await fetch('/get-session-data');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                throw error;
+            }
+        }
+
+    async start() {
+       const addScoreButton = document.getElementById("generateCardButton");
+       const addPassButton = document.getElementById("nextCardButton");
+       
+
+       this.seconds = 5
+       document.getElementById('countdownTimer').style.display = 'block';
+       this.showTimerMessage("")
+       await this.updateTimer();
+       document.getElementById('nextTurnButton').style.display = 'none';
+       addScoreButton.setAttribute("disabled", "true");
+       addPassButton.setAttribute("disabled", "true");       
+       
+       
+    }
+
+
+
+    async updateTimer() {
+        this.countdownTimer.textContent = this.seconds;
+
+        if (this.seconds <= 0) {
+            const data = await this.fetchSessionData();
+            this.roundTimer = 3
+            // data.game_setup_data.time_limit
+            document.getElementById('countdownTimer').style.display = 'block';
+            this.showTimerMessage(" ");
+            this.startCallback();
+            this.startGameCountdown();
+            
+        } else {
+            this.seconds--;
+            this.countdownInterval = setTimeout(() => this.updateTimer(), 1000);
+
+        }
+    }
+
+    startGameCountdown() {
+        this.updateGameTimer();
+        console.log("Current Player turn is now in session");
+    }
+
+    updateGameTimer() {
+        
+        this.countdownTimer.textContent = this.roundTimer;
+        this.roundTimer--;
+
+        if (this.roundTimer >= 0) {
+            
+            this.countdownInterval = setTimeout(() => this.updateGameTimer(), 1000);
+        } else {
+            
+            if (document.getElementById("currentPlayer").textContent) {
+                const currentPlayerName = document.getElementById("currentPlayer").textContent.split(": ")[1];
+                this.showTimerMessage("Time's up, " + currentPlayerName + "!");
+                console.log("Turn Timer ended");
+                console.log(" ");
+                
+                
+                document.getElementById('countdownTimer').style.display = 'none';
+                document.getElementById('nextTurnButton').style.display = 'block';
+                this.endCallback();
+            }
+        }
+    }
+
+    showTimerMessage(message) {
+        const timerModal = document.getElementById('timerModal');
+        const modalMessage = document.getElementById('modalMessage');
+
+        modalMessage.textContent = message;
+        
+    }
+
+    closeTimerModal() {
+        const timerModal = document.getElementById('timerModal');
+        timerModal.style.display = 'none';
+    }
+}
+
+
+
+</script>

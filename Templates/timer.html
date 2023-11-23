@@ -1,0 +1,100 @@
+<!-- JavaScript for the countdown timer -->
+<script>
+let countdownInterval; // Variable to store the interval ID
+   
+
+  // Function block to start the initial countdown, 
+
+  // update timer element in seconds
+
+  // Start round timer based on settings 
+
+  // calls for: Start game session, generate card, start first player turn
+
+function startInitialCountdown() {
+
+    let seconds = 5; // Number of seconds for the initial countdown
+    const countdownTimer = document.getElementById('countdownTimer');
+    const timeLimitElement = document.getElementById('time-limit');
+
+    
+    // Function to update the inital timer element [action when starting countdown is over]
+    function updateTimer() {
+      countdownTimer.textContent = seconds;
+      seconds--;
+
+      if (seconds < 0) {
+        // Countdown has reached zero, show "Game Start"
+        countdownTimer.textContent = "Say More!";
+
+        //  generate a card when "Game Start" is displayed
+        startTurnSession();
+        
+        generateRandomCard();
+
+        startFirstPlayerTurn();
+
+        // Start a new countdown (time per player) based on the game_settings.time_limit
+        const timeLimit = parseInt(timeLimitElement.textContent);
+        startGameCountdown(timeLimit);
+      } else {
+        countdownInterval = setTimeout(updateTimer, 1000); // Update the timer every 1 second (1000 milliseconds)
+      }
+    }
+
+    // Start the initial countdown
+    updateTimer();
+  }
+
+
+
+
+// Function to start a countdown based on the game_settings.time_limit
+function startGameCountdown(timeLimit) {
+    const countdownTimer = document.getElementById('countdownTimer');
+
+    // Function to update the timer element for the game countdown
+    function updateGameTimer() {
+        countdownTimer.textContent = timeLimit;
+        timeLimit--;
+
+        if (timeLimit >= 0) { // Check if timeLimit is greater than or equal to 0
+            countdownInterval = setTimeout(updateGameTimer, 1000); // Update the timer every 1 second (1000 milliseconds)
+        } else {
+            // Countdown has reached zero for the game
+            countdownTimer.textContent = "Time's up!";
+            if (document.getElementById("currentPlayer").textContent) {
+                const currentPlayerName = document.getElementById("currentPlayer").textContent.split(": ")[1];
+                showTimerMessage("Time's up, " + currentPlayerName + "!");
+                endTurnSession();
+                // add actions for when the game timer ends here
+            }
+        }
+    }
+
+    // Start the game countdown
+    updateGameTimer();
+}
+
+
+
+
+// Function to show the timer message using a modal
+function showTimerMessage(message) {
+  const timerModal = document.getElementById('timerModal');
+  const modalMessage = document.getElementById('modalMessage');
+  
+  modalMessage.textContent = message; // Set the modal message content
+  timerModal.style.display = 'block'; // Display the modal
+}
+
+
+
+
+// Function to close the modal
+function closeTimerModal() {
+  const timerModal = document.getElementById('timerModal');
+  timerModal.style.display = 'none'; // Hide the modal
+}
+
+</script>

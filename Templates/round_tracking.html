@@ -1,0 +1,183 @@
+<!-- <html lang="en">
+
+
+
+<script>
+
+    // VARIABLES
+
+    let numRounds = parseInt(document.getElementById('round-limit').textContent);       // Get the number of rounds from your game settings
+
+    const numTeams = parseInt(document.getElementById('num-teams').textContent);           // Get the number of teams from your game settings
+
+    const categories = ['Key Subject Terms', 'Key Characters', 'Exam Skills and Command Words', 'Spellings', 'Grammar Rules']; // Define the categories 
+    
+    const gameMode = document.getElementById('game-mode').textContent.trim();       // define game mode
+    
+    // teams data - creates a dict of teams based on the number of teams in the game settings hover menu
+    const teams = {};
+        for (let i = 1; i <= numTeams; i++) {
+            teams[`Team ${i}`] = [];
+                }
+
+    
+    const turnsTaken = {};   // dict called turns taken with the keys of the team_data keys and the value of 0 for each one given
+        Object.keys(teams).forEach(team => {
+        turnsTaken[team] = 0;
+    });
+
+    const numPlayersPerTeam = {};  // Dictionary to store the number of players per team
+    Object.keys(teams).forEach(team => {
+  numPlayersPerTeam[team] = teams[team].length;
+});
+
+    let currentTeamIndex = 0;    // current team index to monitor turn taking
+    
+
+    const usedCategories = [];  // used categories to avoid repetition and support pseudorandomness
+
+ 
+
+    
+    // Initialize the current round to 1 and current category index to 0
+    let currentRound = 1;
+    let currentCategoryIndex = 0;
+    
+
+
+
+
+    // Randomized Category Order - Shuffle array function
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    
+// Checking game mode logic; amending number of rounds based on game mode - SELECTED
+    if (gameMode === 'Selected') {
+    // Check if the number of rounds is specified
+    if (numRoundsElement) {
+    numRounds = parseInt(numRoundsElement.textContent);
+
+    } else {
+        // Handle the case when the number of rounds is not specified
+        //show an error message
+        console.error('Number of rounds not specified for the Selected game mode.');
+    }
+}
+
+// Checking game mode logic; amending number of rounds based on game mode - FULL GAME
+    if (gameMode === 'Full') {
+    // Set the number of rounds to 5 for the 'Full' game mode
+    numRounds = 5;
+}
+
+
+
+
+
+
+
+    // Funcitonality - Round cycling, Category selection and display, disbaling round cycle button (will change when button removed)
+function startNextRound() {
+
+        const nextRoundButton = document.getElementById("nextRoundButton");
+
+        if (currentRound <= numRounds) {
+            let selectedCategory;
+            // Check if all teams have completed their turn for the current category
+            
+            
+            do {
+                // Randomly select a category from the shuffled array
+                selectedCategory = categories[currentCategoryIndex];
+            } while (usedCategories.includes(selectedCategory));
+    
+            // Display the current round and category
+            document.getElementById('categoryName').textContent = selectedCategory;
+
+    
+            // Add the selected category to the used categories array
+            usedCategories.push(selectedCategory);
+    
+            // Increment the round and category index
+            currentRound++;
+            currentCategoryIndex = (currentCategoryIndex + 1) % categories.length;
+     
+
+// Increment the team index
+currentTeamIndex = (currentTeamIndex + 1) % teams.length;
+
+// Increment the round
+currentRound++;
+        
+            if (currentRound > numRounds) {
+        // Disable the next category button
+        nextRoundButton.disabled = true;
+
+        // Show an alert for the last category
+        alert('Last Category');
+    }
+} else {
+    // Disable the next category button if all rounds have been played
+    nextRoundButton.disabled = true;
+
+    // Show an alert for the last category
+    alert('Last Category');
+}
+    }
+
+
+
+
+
+// Function to count turns for each team
+function countTurns() {
+    const currentTeam = `Team ${currentTeamIndex + 1}`;
+    
+    // Increment the turn count for the current team
+    turnsTaken[currentTeam]++;
+    
+    // Check if all players from all teams have taken their turn in the current round
+    const allTurnsTaken = Object.values(turnsTaken).every(turnCount => turnCount === numPlayersPerTeam[currentTeam]);
+
+    if (allTurnsTaken) {
+        // Reset turn counts for the next round
+        Object.keys(turnsTaken).forEach(team => {
+            turnsTaken[team] = 0;
+        });
+
+        // Increment the round
+        currentRound++;
+
+        if (currentRound > numRounds) {
+            // All rounds have been played
+            console.log('All rounds played');
+            // Add any additional logic you want to execute when all rounds have been played
+        } else {
+            // Start the next round
+            startNextRound();
+        }
+    } else {
+        // Switch to the next team for the next turn
+        currentTeamIndex = (currentTeamIndex + 1) % numTeams;
+    }
+}
+
+
+
+
+
+
+
+    // Add a click event listener to the next round button
+    const nextRoundButton = document.getElementById("nextRoundButton");
+    document.getElementById("nextRoundButton").addEventListener("click", function() {
+        startNextRound();
+    });
+    </script>
+    
+
+     -->

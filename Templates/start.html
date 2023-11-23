@@ -1,0 +1,17 @@
+{% extends 'testerbase.html' %}
+
+{% block title %}Start Game{% endblock %}
+
+{% block pageTitle %}Welcome to the Start Game Page{% endblock %}
+
+{% block pageDescription %}This is the description of the game page.{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+    <h2>Welcome to web app!</h2>
+    <p>Click the start game button below to create your settings and enter your player data.</p>
+
+    <!-- Add a button to go to the game setup page -->
+    <a href="{{ url_for('game_setup') }}" class="btn btn-primary">Go to Game Setup</a>
+{% endblock %}

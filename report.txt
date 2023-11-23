@@ -1,0 +1,213 @@
+Next steps:
+
+Wesbite styling --> change base template to look more modern.
+	decide what web elements you want (e.g. what types of containers etc
+
+Scoreboard and score keeping functionality --> Pass or correct answer to give a point, buttons to confirm or pass on a score
+
+Timer functionality --> visible timer that ticks down with some indication (number and time wheel). Time's up notification
+
+turn taking --> game state is reset and then points are tracked for each player
+	
+Issue: 
+	Positioning and sizes of the cards still need to change
+
+
+
+Issue: 
+
+Animating flash cards, correct responses and passes
+
+	Testing:
+		CSS Transitions
+
+
+Issue:
+
+Animating a working timer 
+
+
+
+Issue: Cycling players
+
+Next steps:     Starting game state where game settings and player data carry over into a new route (gameplay window)
+
+Relevant game settings: 
+	Number of teams --> number of turns and turn rotation between the players on each team 
+	time limit (timer needed to display on screen and count down during each turn)
+	Recognising game type - multi round or single category (creating cards based on the correct cateogory if single round - ie displaying a card with other options removed/greyed out'
+	Number of rounds if multi round (cycling through a range of categories based on the number of rounds)
+
+
+Issue: 
+Positioning, size, colouring of flash card 
+
+	Resolution:
+		Coloured categories
+		Slightly increased size
+		Coloured background
+
+
+
+issue: Messy code from crossover of deault forms and wtforms and session object naming
+	fix playerdata.html to be a wtform
+	JS integration?
+	
+
+
+
+
+Issue: 
+Start game button that begins a 5 second countdown display and then generates the first card
+	
+	Checking:
+		Js to implement a 5 second timer which ends with the timer ticking down'
+
+	added JS script
+
+	Checking:
+		Timer that ticks down to show a players turn time based on the game settings variable passed
+
+	added JS script
+
+	Checking:
+		When the intial timer finishes, generate a card
+	
+	added JS script
+
+
+
+Issue: 
+
+Defining flash card content
+
+	Testing:
+		DB Logic and querying
+
+Card DB model links to the 6 categories (individual db models) that comprise of varying strings. 
+Instead of making 6 individual queries per flashcard you make one query to the card model (which in turn queries the 6 categories). 
+The card should pull an id from each category which will be associated with a string. 
+The id should not be reused in the given game state.
+
+There are currently no cards in the db, the card model is a framwork to generate card through queries of the other models. Because each card should be randomised (picking assorted id's that have not been used every time a card is pulled) then the cards cannot be set in the db as there would be too many possiblities
+
+
+
+	Resolution: 
+		Generator works at its own url. 
+
+
+Issue: 
+	
+Whole dict is being shown rather than the construct of the flash card in a visually appealing way. The generator needs to be routing to the game instance titled game instance at the route /playing-game rather than its own route
+	
+	Checking: 
+
+Random card generator function in the game iinstance route. Random card generator is working on refresh because that is the way that the route is being accessed.
+Each time the route is refreshed a new call of random card generator is actioned
+Pressing the button 'generate random card' outputs the entire dict:
+	Generated Card: {"exam_skills_category":"Illustrate","grammar_rules_category":"Homophones","key_character_category":"Fred","key_word_category":"Imagery","spellings_category":"existence"}
+
+	Checking: 
+	
+The CSS card is presenting the objects of the generator rather than the strings produced by the generator. 
+
+	Resolved:
+	Using more effective JS integration so that the data on the card is changed in tandem with the function (DOM). Changing the html based on the id in the JS. the code processes the data received from your Flask route and updates the text content of specific HTML elements (with corresponding id attributes) to display the attributes of the generated card
+
+
+
+Resolved ________
+Example: refercing the list passed into the return html template rather than the previous game settings number of teams [is fine bceause still based on the session variabel num_teams which is defined in game settings]
+
+selected_team = request is querying a form that doesnt exist? 
+	now accessing the proper key in the html file playerdata.html. Was selected_team = request.form.get('selected_team') now selected_team = request.form.get('team')
+
+
+session.get being called on team_data that does not exist yet	
+	even though    team_data = session.get('team_data', {}) is the first call of 'team_data' the session object syntax is so that if the result would be none then an empty dict is created and bound to the 'team_data' object
+
+
+
+issue : url not found.
+	
+ <form method="GET" action="/remove_item/{{ player }}">
+
+was returning
+
+http://127.0.0.1:5000/remove_item/player/Reece? 
+		lower case player and the player value passed in 
+
+now  <form method="GET" action="/remove_item/{{ team }}/{{ player }}">
+
+returns
+
+http://127.0.0.1:5000/remove_item/1/Reece?
+
+
+
+issue: what name variable is being referenced in the remove item route?
+
+Current remove player html code: 
+	iterates through the dict of team_data
+	for the player (values) in the dict 
+	create a list item of each player
+	create a submit button titled 'Remove'
+	button routes to action="/remove_item/player/{{ player }}"
+
+
+
+RESOLVED___________
+FORM WAS REFERNCING A URL WITH THE STRING 'REMOVE_ITEM' BUT ROUTE WAS 'REMOVE_PLAYER'
+
+
+
+issue: Add player of the same name to a team and the html window is replicated upon the removal of that player
+window is duplicated when the player is removed 
+
+Resolved __
+added route: route('/get_teams_and_players
+added render remplate of teams_and_players.html to show current teams and players.
+Teams and players html has the heading 'updated' to show when changes are made
+
+
+issue: teams and players.html is showing 4 teams regardless of number of teams selected previously
+fixed on removal not on addition of player
+
+fixed on addition but now adds the same player to every team 
+
+Issue: 
+Each player is being added to each available team
+Removing a player removes every player from every team
+
+	Checking: 
+		Add player to team route as the player data html leads to the add player to team route
+	Result: 
+		Route makes sense on code re-read
+
+	
+	Checking: 
+		Player is not being added to the dictionary in the wrong key
+	Result:
+		Player 1, when added to team 1, remains in team 1. Team 2 is empty. Printed team_data on the html to show dictionary that dictionary addition is working correctly
+
+
+	
+	Checking: 
+		Display of the teams and players --> why is the "teamsAndPlayersContainer" code block being shown player X is being added to both existing team options rather than the one team that was selected
+	Result: 
+		not the issue of the teams_and_players html as changing the view of that code doesnt change the view of the html
+		form is adding information to the team_data dict appropriately
+	
+	Checking:
+		The list item is being made of the player on each iteration therefore adding it to each team available. the list item should only be made once for each player
+	Result:
+		printing appropriately in player data.html.
+
+
+Issue:
+Teams and players . html is printing the wrong data
+
+	Checking: html structure in doc
+	Result: copy and pasted the html from player data and changed the title of this code block to updated so that it makes sense on user experience
+

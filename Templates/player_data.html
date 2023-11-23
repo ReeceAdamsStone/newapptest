@@ -1,0 +1,105 @@
+{% extends "testerbase.html" %}
+
+{% block title %}Game Setup{% endblock %}
+
+{% block pageTitle %} {% endblock %}
+
+{% block header %}
+<header class="w3-container w3-white w3-center" style="padding: 30px 4px">
+  <h1 class="w3-margin w3-jumbo"></h1>
+  <img src="{{ url_for('static', filename='logotest2nonbg.png') }}" alt="Articulate Online Logo">
+  <p class="w3-xlarge"></p>
+</header>
+{% endblock %}
+
+{% block pageDescription %}
+
+{% endblock %}
+
+{% block content %}
+
+<!-- Add player to team, select a team -->
+<div class="w3-container w3-center ">
+  <!-- Form to add a player to a specific team -->
+  <form method="POST" action="/add_player_to_team" class="w3-center w3-container" style="width: 300px; margin: 0 auto;">
+    <h3>Add a Player to a Team:</h3>
+    <div class="w3-container">
+      <label for="team_select">Select a Team:</label>
+      <br>
+      <select id="team_select" name="team" class="w3-input">
+        {% for team in range(1, num_teams + 1) %}
+        <option value="{{ team }}">Team {{ team }}</option>
+        <br>
+        {% endfor %}
+      </select>
+    </div>
+
+
+<!-- player name label and input, add player to team buttom -->
+    <div class="w3-container">
+      <label for="player_name">Player Name:</label>
+      <br>
+      <input type="text" id="player_name" name="player_name" required class="w3-input">
+      <br>
+      <input type="submit" value="Add Player to Team" class="w3-button w3-blue">
+    </div>
+  </form>
+  <br>
+
+
+  <!-- showing current players and remove player functionality -->
+  <div class="w3-container">
+    <h3>Teams and Players:</h3>
+    <div id="teamsAndPlayersContainer" class="w3-container w3-center">
+      {% for team_num, players in team_data.items() %}
+      <p>Team {{ team_num }} :</p>
+      <ul class="w3-ul">
+        {% for player in players %}
+        <li class="w3-li w3-hover-border">
+          <span class="w3-inline">{{ player }}</span>
+          <form onsubmit="deletePlayer('{{ team_num }}', '{{ player }}'); return false;">
+            <input type="submit" value="Remove" class="w3-button w3-red w3-inline">
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endfor %}
+    </div>
+  </div>
+  
+  
+
+  
+<!-- start game button -->
+<a href="{{ url_for('game_instance') }}" class="w3-button w3-green w3-xlarge w3-animate-opacity">Start Game!</a>
+
+</div>
+
+<script>
+function deletePlayer(team, player) {
+  fetch(`/player/${team}/${player}`, {
+    method: 'DELETE',
+  })
+  .then(response => {
+    if (response.status === 200) {
+      // Remove the deleted player from the UI
+      const playerItem = document.querySelector(`li[data-team="${team}"][data-player="${player}"]`);
+      if (playerItem) {
+        playerItem.remove();
+      }
+      updateTeamsAndPlayers();
+    }
+  });
+}
+function updateTeamsAndPlayers() {
+  // Fetch the updated team_data or re-render it from your data source
+  // Replace the entire "Teams and Players" section in the container
+  fetch('/get_teams_and_players')
+    .then(response => response.text())
+    .then(data => {
+      const container = document.getElementById('teamsAndPlayersContainer');
+      container.innerHTML = data;
+    });
+}
+</script>
+{% endblock %}

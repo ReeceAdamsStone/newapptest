@@ -1,0 +1,130 @@
+{% extends 'testerbase.html' %}
+
+{% block title %} {% endblock %}
+
+{%block header%} {%endblock%}
+
+{% block content %}
+
+
+
+
+<!-- flashcard and score functionality link to flashcard.html -->
+<div>
+
+  <h1> Add or Pass </h1>
+  <!--  the flashcard content  -->
+
+</div>
+
+
+
+
+<div id="timerModal" class="w3-modal">
+  <div class="w3-modal-content">
+    <div class="w3-container">
+      <span onclick="closeTimerModal()" class="w3-button w3-display-topright">&times;</span>
+      <p id="modalMessage"> </p>
+    </div>
+  </div>
+</div>
+
+
+  <!-- COMPELTED COUNTDOWN BUTTON AND TIMER DISPLAY-->
+<div class="w3-col m3 w3-center">
+    <button onclick="startInitialCountdown()">Click here to start your turn</button>
+    <!-- COUNTDOWN TIMER -->
+    <div id="countdownTimer"> </div>
+</div>
+  
+
+  <!-- Scoreboard -->
+<div>
+    <h1>Scoreboard</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Passes</th>
+          <th>Corrects</th>
+        </tr>
+      </thead>
+      <tbody id="scoreTableBody">
+        <!-- Player scores will be dynamically added here -->
+      </tbody>
+    </table>
+</div>
+
+
+<!-- Timer message -->
+<div id="timerMessage" style="display: none;">
+  <p id="timerText" class="w3-text-red w3-center w3-large"></p>
+</div>
+
+
+  <!-- Current player score; Current player indication; Next player indication -->
+<div>
+    <h1>Score Tracker for this turn</h1>
+    <span id="correctScore">Correct: 0</span>
+    <div id="passScore">Passes: 0</div>
+
+    <h1> Current and Next Players </h1>
+    <div id="currentPlayer">Current Player: Your name will appear here when it is currently your turn</div>
+    <div id="nextPlayer">Next Player: Your name will appear here when it is your turn next</div>
+    <div id="lastTurnMessage"></div>
+
+    <!-- Teams data hover  -->
+    <div class="w3-dropdown-hover">
+      <div>Teams (hover for more infomation)</div>
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        {% for team, players in team_data.items() %}
+          <div class="w3-bar-item w3-hover-light-gray">
+            <strong>Team {{ team }}:</strong>
+            <ul>
+              {% for player in players %}
+                <li>{{ player }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- game settings display -->
+<div class="w3-dropdown-hover">
+  <h1 class="w3-button">Current Settings</h1>
+  <div class="w3-dropdown-content w3-bar-block w3-card-4">
+    <p class="w3-bar-item">Number of Teams: <span id="num-teams">{{ game_settings.num_teams }}</span></p>
+    <p class="w3-bar-item">Game Mode: <span id="game-mode">{{ game_settings.game_mode}}</span></p>
+    <p class="w3-bar-item">Number of Rounds: 
+      <span id="round-limit">
+          {% if game_settings.game_mode == 'Full' %}
+              5
+          {% else %}
+              {{ game_settings.num_rounds }}
+          {% endif %}
+      </span>
+  </p>
+    <p class="w3-bar-item">Time Limit: <span id="time-limit">{{ game_settings.time_limit }}</span> Seconds</p>
+  </div>
+</div>
+
+
+
+
+
+
+<p id="selectedCategory">Current Category: <span id="categoryName"></span></p>
+<button id="nextRoundButton">Next Round</button>
+
+
+
+
+
+
+{% endblock %}

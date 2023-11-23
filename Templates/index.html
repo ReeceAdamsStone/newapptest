@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+{% extends 'testerbase.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block pageTitle %}<h1 class="text-center title"></h1>{% endblock %}
+
+{% block pageDescription %}<p class="lead text-center"> </p>{% endblock %}
+
+
+
+{% block header %}
+   <!-- Header -->
+<header class="w3-container w3-white w3-center" style="padding:128px 16px">
+    <h1 class="w3-margin w3-jumbo"></h1>
+      <img src="{{ url_for('static', filename='logotest2nonbg.png') }}" alt="Articulate Online Logo">
+    <p class="w3-xlarge"></p>
+    <a href="{{ url_for('rules') }}"><button class="w3-button w3-black w3-padding-large w3-large w3-margin-top"> Rules</button></a>
+    <a href="{{ url_for('game_setup') }}"><button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started!</button></a>
+  </header>
+{% endblock %}
