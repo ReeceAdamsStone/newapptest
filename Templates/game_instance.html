@@ -1,85 +1,113 @@
-{% extends 'testerbase.html' %}
+{% extends 'index.html' %}
 
 {% block title %} {% endblock %}
 
-{%block header%} {%endblock%}
+{% block header %} {% endblock %}
 
 {% block content %}
+    {% include 'game_logic.html' %}
 
-{% include 'game_logic.html' %}
+    <html lang="en">
 
-<html lang="en">
+    <body>
+        
+        <!-- Content for column 1 -->
+        
+        <div class="flex justify-between p-4">
+            <div class="w-1/4 p-4 rounded-md">
+                <!-- Content for row 1 in column 1 -->
+        
+                <!-- Scoreboard -->
+                <div class="p-4 rounded-md">
+                    <table class="w-full animate__animated animate__zoomInDown">
+                        <thead>
+                            <tr>
+                                <th class="text-primary-col">Player</th>
+                                <th class="text-primary-col">Passes</th>
+                                <th class="text-primary-col">Corrects</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoreTableBody" class="text-primary-col">
+                            <!-- Player scores will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
 
+                  <div class="mt-6">
+                    <!-- Content for row 2 in column 1 -->
+                      <div class="text-left mt-40">
+                          <div id="currentPlayer" class="text-primary-col animate__animated animate__zoomInDown">Current Player: Your name will appear here when it is your turn</div>
+                          <div id="nextPlayer" class="text-primary-col animate__animated animate__zoomInDown">Next Player: Your name will appear here when it is your turn next</div>
+                          <div id="gameStatusMessage" class="text-primary-col"> </div>
+                          <div id="countdownTimer" class="text-primary-col"> </div>
+                          <p id="modalMessage" class="text-primary-col"> </p>
+                          <div id="timeLimitElement" class="text-primary-col" style="display: none;">  </div>
+                      </div>
+                  </div>
+              </div>
+                  
+              <!-- Column 2 --> 
+              <div class="w-1/2 p-4 rounded-md flex flex-col items-center">
+                  <div class="mt-6">
+                      <!-- Content for row 1 in column 2 -->
+                      <div class=" flex flex-col items-center">
+                      <button id="startGameButton" class=" text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col px-4 py-2 mt-5 animate__animated animate__zoomInDown">Ready to start?</button> 
+                      <button id="nextTurnButton" class=" text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col px-4 py-2 mt-5 animate__animated animate__zoomInDown">Next player ready?</button>
+                      <div id="currentCategoryDisplay" class="px-4 py-2 rounded mb-20 text-primary-col fs-5"> </div>
+                  </div>
+                </div>
 
-
-<body>
-    
-    <br><br><br><br><br><br><br>
-    <button id="nextCardButton">Pass a Card</button>
-    <button id="startGameButton">Ready to start?</button>
-    <button id="nextTurnButton">Next player ready?</button>
-    <button id="generateCardButton">Add a Score</button>
-    <button id="revealWinnersButton">Reveal Winners</button>
-
-    <div id="cardContainer"> </div>
-    <div id="currentCategoryDisplay"> </div>
-    
-
-
-    <div id="currentPlayer">Current Player: Your name will appear here when it is currently your turn</div>
-    <div id="nextPlayer">Next Player: Your name will appear here when it is your turn next</div>
-    <div id="gameStatusMessage"> </div>
-
-    
-    <div id="countdownTimer"> </div>
-    
-    <p id="modalMessage"> </p>
-
-    <div id="timeLimitElement" style="display: none;">  </div>
-
-
-      <!-- Scoreboard -->
-<div>
-    <h1>Scoreboard</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Player</th>
-          <th>Passes</th>
-          <th>Corrects</th>
-        </tr>
-      </thead>
-      <tbody id="scoreTableBody">
-        <!-- Player scores will be dynamically added here -->
-      </tbody>
-    </table>
-</div>
-    
-
-
-<div id="winnerMessage"> </div>
-
-
-<!-- game settings display -->
-<div class="w3-dropdown-hover">
-  <h1 class="w3-button">Current Settings</h1>
-  <div class="w3-dropdown-content w3-bar-block w3-card-4">
-    <p class="w3-bar-item">Number of Teams: <span id="num-teams">{{ game_settings.num_teams }}</span></p>
-    <p class="w3-bar-item">Game Mode: <span id="game-mode">{{ game_settings.game_mode}}</span></p>
-    
-    <p class="w3-bar-item">Number of Rounds: 
-      <span id="round-limit">
-          {% if game_settings.game_mode == 'Full' %}
-              5
-          {% else %}
-              {{ game_settings.num_rounds }}
-          {% endif %}
-      </span>
-  </p>
-    <p class="w3-bar-item">Time Limit: <span id="time-limit">{{ game_settings.time_limit }}</span> Seconds</p>
-  </div>
+<!-- Row 2 in column 2 -->
+<div class="">
+    <div class="mt-30 flex items-center justify-center text-lg">
+        <div id="cardContainer" class="card text-primary-col rounded-lg bg-neutral p-4 w-100 h-40"></div>
+    </div>
 </div>
 
+  
+                  <!-- Row 3 in column 2 -->
+                  <div class="mt-20">
+                      <button id="generateCardButton" class="text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col px-4 py-2 mr-auto">Add a Score</button>
+                      <button id="nextCardButton" class="text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col px-4 py-2 ml-auto">Pass a Card</button>
+                      <div id="winnerMessage" class="text-primary-col"> </div>
+                  </div>
+              </div>
+
+              <div class="w-1/4 p-4 rounded-md">
+                  <!-- Content for column 3 -->
+                  <button id="revealWinnersButton" class=" text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col px-4 py-2">Reveal Winners</button>
+
+                  <div class="mt-0">
+                      <!-- Content for row 1 in column 3 -->
+                      <div class="text-center">
+
+                          <!-- Game settings display -->
+                          <div class="p-4 rounded-md animate__animated animate__zoomInDown">
+                              
+                              <div>
+                                  <button id="settingsButton" class=" text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col px-4 py-2">Show Settings</button>
+                                  <div id="settingsContent" class=" text-primary-col" style="display: none;">
+                                      <p>Number of Teams: <span id="num-teams">{{ game_settings.num_teams }}</span></p>
+                                      <p>Game Mode: <span id="game-mode">{{ game_settings.game_mode}}</span></p>
+                                      <p>Number of Rounds:
+                                          <span id="round-limit">
+                                              {% if game_settings.game_mode == 'Full' %}
+                                                  5
+                                              {% else %}
+                                                  {{ game_settings.num_rounds }}
+                                              {% endif %}
+                                          </span>
+                                      </p>
+                                      <p>Time Limit: <span id="time-limit">{{ game_settings.time_limit }}</span> Seconds</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    </body>
+    </html>
 
 
 
@@ -87,100 +115,75 @@
 
 
 
+        <script>
+            // Instantiate the class objects
+            const game = new Game();
+            const cardManager = new CardManager('cardContainer'); // Replace 'cardContainer' with the actual ID of your card container
+            const scorer = new Scorer(game, cardManager, "nextCardButton", "generateCardButton", game.currentPlayer);
+            const revealWinnersButton = document.getElementById("revealWinnersButton");
 
-</body>
+            if (revealWinnersButton) {
+                revealWinnersButton.style.display = "none";
+            }
 
-<script>
-    // Instantiate the Game, CardManager, and Scorer classes
-    const game = new Game();
-    const cardManager = new CardManager('cardContainer'); // Replace 'cardContainer' with the actual ID of your card container
-    const scorer = new Scorer(game, cardManager, "nextCardButton", "generateCardButton", game.currentPlayer);
-    const revealWinnersButton = document.getElementById("revealWinnersButton");
-    
-    if (revealWinnersButton) {
-    revealWinnersButton.style.display = "none";
-}
-    
-    
-    // Define startTurnSession and endTurnSession functions
-    function startTurnSession() {
-        scorer.startTurnSession(); 
-    }
-    
-    function endTurnSession() {
-        scorer.endTurnSession(); 
-    }
-    
-    const timer = new Timer(5, 'countdownTimer', 'timeLimitElement', startTurnSession, endTurnSession);
-    
-    
-    document.getElementById('startGameButton').addEventListener('click', () => {
-        startASession();
-        console.log("Start game button pressed");
-    });
+            // Define startTurnSession and endTurnSession functions
+            function startTurnSession() {
+                scorer.startTurnSession();
+            }
 
-    
+            function endTurnSession() {
+                scorer.endTurnSession();
+            }
 
-    if (revealWinnersButton) {
-    revealWinnersButton.addEventListener("click", () => {
-        // Call a method to handle revealing winners
-        scorer.determineWinners(game);
-    });
-}
-    
-    function startASession() {
-        
-        document.getElementById('startGameButton').style.display = 'none';
+            const timer = new Timer(5, 'countdownTimer', 'timeLimitElement', startTurnSession, endTurnSession);
 
-        game.startGameSession();
-
-        
-
-        game.startFirstPlayerTurn();
-
-        cardManager.generateRandomCard();
-        console.log("First Player Turn Started");
-        
-        // game.startNextRound();
-
-        timer.start();
-        console.log("Warning Timer Started. Beginning 5 second countdown");
-        startTurnSession();
-        
-    }
+            document.getElementById('startGameButton').addEventListener('click', () => {
+                startASession();
+                console.log("Start game button pressed");
+            });
 
 
+            if (revealWinnersButton) {
+                revealWinnersButton.addEventListener("click", () => {
+                    // Call a method to handle revealing winners
+                    scorer.determineWinners(game);
+                });
+            }
 
+            function startASession() {
+                document.getElementById('startGameButton').style.display = 'none';
+                game.startGameSession();
+                game.startFirstPlayerTurn();
+                cardManager.generateRandomCard();
+                console.log("First Player Turn Started");
+                timer.start();
+                console.log("Warning Timer Started. Beginning 5 second countdown");
+                startTurnSession();
+            }
 
+            document.getElementById('nextTurnButton').addEventListener('click', () => {
+                turnLogic();
+                console.log("Next turn button pressed");
+            });
 
+            function turnLogic() {
+                document.getElementById('startGameButton').style.display = 'none';
+                game.startNextTurn();
+                console.log("Next player turn Started");
+                timer.start();
+                console.log("Warning Timer Started. Beginning 5 second countdown");
+            }
 
+            // Toggle display of settings content
+            const settingsButton = document.getElementById('settingsButton');
+            const settingsContent = document.getElementById('settingsContent');
 
-
-
-
-    document.getElementById('nextTurnButton').addEventListener('click', () => {
-        turnLogic();
-        console.log("Next turn button pressed");
-    });
-    
-    function turnLogic() {
-
-        document.getElementById('startGameButton').style.display = 'none';
-
-
-        game.startNextTurn();
-        console.log("Next player turn Started");
-
-        
-
-
-        timer.start();
-        console.log("Warning Timer Started. Beginning 5 second countdown");
-    }
-
-    
-    </script>
-
-
-{%endblock%}
-</html>
+            if (settingsButton && settingsContent) {
+                settingsButton.addEventListener('click', () => {
+                    settingsContent.style.display = (settingsContent.style.display === 'none') ? 'block' : 'none';
+                });
+            }
+        </script>
+    </body>
+    </html>
+{% endblock %}

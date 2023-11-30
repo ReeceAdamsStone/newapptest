@@ -5,14 +5,16 @@ module.exports = {
     "./static/src/**/*.js"
   ],
   
-  theme: {
-    extend: {
-      colors: {
+  theme: { 
+    extend: { 
+      colors: { 'space-cadet': '#B5CA8D', 'matt-white': '#B7C4C3', 'kirsty-dark': '#161032', 'neutral': '#f7fff7', 'primary-col': '#4f6d7a', 'action': '#4ecdc4',
         primary: {"50":"#eff6ff","100":"#dbeafe","200":"#bfdbfe","300":"#93c5fd","400":"#60a5fa","500":"#3b82f6","600":"#2563eb","700":"#1d4ed8","800":"#1e40af","900":"#1e3a8a","950":"#172554"}
+        
       }
     },
     fontFamily: {
       'body': [
+    'Ubuntu',
     'Inter', 
     'ui-sans-serif', 
     'system-ui', 
@@ -30,6 +32,7 @@ module.exports = {
     'Noto Color Emoji'
   ],
       'sans': [
+    'Ubuntu',
     'Inter', 
     'ui-sans-serif', 
     'system-ui', 
@@ -48,5 +51,7 @@ module.exports = {
   ]
     }
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms'),
+
+  ],
 };

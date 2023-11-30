@@ -13,6 +13,11 @@ def rules():
     return render_template('rules.html')
 
 
+@app.route('/about-me', methods=['GET', 'POST'])
+def about_me():
+    return render_template('aboutme.html')
+
+
 # Game settings input page
 # Records session variables of game settings to be passed later
 @app.route('/game-setup', methods=['GET', 'POST'])
@@ -38,6 +43,8 @@ def game_setup():
             }
                
         return redirect(url_for('player_data'))
+    
+    print(game_setup_form.errors)
 
 
     player_data_form = PlayerDataForm(request.form)

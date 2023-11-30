@@ -1,15 +1,11 @@
-{% extends "testerbase.html" %}
+{% extends "index.html" %}
 
 {% block title %}Game Setup{% endblock %}
 
 {% block pageTitle %} {% endblock %}
 
 {% block header %}
-<header class="w3-container w3-white w3-center" style="padding: 30px 4px">
-  <h1 class="w3-margin w3-jumbo"></h1>
-  <img src="{{ url_for('static', filename='logotest2nonbg.png') }}" alt="Articulate Online Logo">
-  <p class="w3-xlarge"></p>
-</header>
+
 {% endblock %}
 
 {% block pageDescription %}
@@ -17,89 +13,93 @@
 {% endblock %}
 
 {% block content %}
+<div class="container mx-auto">
+    <div class="grid grid-cols-4 gap-4">
+        <!-- Leftmost column -->
+        <div class="col-span-1 ">
+            <div class="mt-8">
+                <h3 class="text-lg font-medium leading-6 text-primary-col pl-30">Teams and Players:</h3>
+                <div id="teamsAndPlayersContainer" class="align-text-top">
+                    {% for team_num, players in team_data.items() %}
+                        <p class="mt-4 text-primary-col pl-30">Team {{ team_num }} :</p>
+                        <ul class="list-disc "> <!-- Increased left margin for the list -->
+                            {% for player in players %}
+                                <li class="mb-2">
+                                    <span class="text-lg leading-5 text-primary-col">{{ player }}</span>
+                                    <form onsubmit="deletePlayer('{{ team_num }}', '{{ player }}'); return false;" class="inline-block">
+                                        <button type="submit" class="ml-2 px-2 py-1 text-lg font-medium text-white bg-primary-700 rounded-md hover:bg-gray-100 focus:outline-none focus:border-primary-700 focus:ring focus:ring-primary-300 focus:ring-opacity-50">Remove</button>
+                                    </form>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
-<!-- Add player to team, select a team -->
-<div class="w3-container w3-center ">
-  <!-- Form to add a player to a specific team -->
-  <form method="POST" action="/add_player_to_team" class="w3-center w3-container" style="width: 300px; margin: 0 auto;">
-    <h3>Add a Player to a Team:</h3>
-    <div class="w3-container">
-      <label for="team_select">Select a Team:</label>
-      <br>
-      <select id="team_select" name="team" class="w3-input">
-        {% for team in range(1, num_teams + 1) %}
-        <option value="{{ team }}">Team {{ team }}</option>
-        <br>
-        {% endfor %}
-      </select>
+        <!-- Middle column -->
+        <div class="col-span-2">
+            <!-- Form to add a player to a specific team -->
+            <form method="POST" action="/add_player_to_team" class="mt-20" style="max-width: 400px; margin: 0 auto; text-align: center;">
+                <h3 class="text-lg font-medium leading-6 text-primary-col mt-10">Add a Player to a Team:</h3>
+
+                <div class="mt-4">
+                    <label for="team_select" class="block text-lg font-medium leading-5 text-primary-col my-5">Select a Team:</label>
+                    <select id="team_select" name="team" class="block w-full rounded-md border-0 py-1.5 text-primary-col shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary-col sm:text-base sm:leading-6 bg-neutral">
+                        {% for team in range(1, num_teams + 1) %}
+                            <option value="{{ team }}">Team {{ team }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mt-4">
+                    <label for="player_name" class="block text-lg font-medium leading-5 text-primary-col  text-center my-5">Player Name:</label>
+                    <input type="text" id="player_name" name="player_name" required class="block w-full rounded-md border-0 py-1.5  text-primary-col shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary-col sm:text-base sm:leading-6 bg-neutral">
+                </div>
+
+                <div class="mt-20 flex items-center justify-center gap-x-6">
+                    <button type="submit" class="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-center text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col">Add Player to Team</button>
+                </div>
+                <div>
+                  <a href="{{ url_for('game_instance') }}" class="inline-flex items-center justify-center px-8 py-3 mt-4 text-base font-medium text-center  text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col">Start Game!</a>
+              </div>
+            </form>
+
+
+           
+        <!-- Rightmost column -->
+        <div class="col-span-1">
+            <!-- Empty column on the right -->
+        </div>
     </div>
-
-
-<!-- player name label and input, add player to team buttom -->
-    <div class="w3-container">
-      <label for="player_name">Player Name:</label>
-      <br>
-      <input type="text" id="player_name" name="player_name" required class="w3-input">
-      <br>
-      <input type="submit" value="Add Player to Team" class="w3-button w3-blue">
-    </div>
-  </form>
-  <br>
-
-
-  <!-- showing current players and remove player functionality -->
-  <div class="w3-container">
-    <h3>Teams and Players:</h3>
-    <div id="teamsAndPlayersContainer" class="w3-container w3-center">
-      {% for team_num, players in team_data.items() %}
-      <p>Team {{ team_num }} :</p>
-      <ul class="w3-ul">
-        {% for player in players %}
-        <li class="w3-li w3-hover-border">
-          <span class="w3-inline">{{ player }}</span>
-          <form onsubmit="deletePlayer('{{ team_num }}', '{{ player }}'); return false;">
-            <input type="submit" value="Remove" class="w3-button w3-red w3-inline">
-          </form>
-        </li>
-        {% endfor %}
-      </ul>
-      {% endfor %}
-    </div>
-  </div>
-  
-  
-
-  
-<!-- start game button -->
-<a href="{{ url_for('game_instance') }}" class="w3-button w3-green w3-xlarge w3-animate-opacity">Start Game!</a>
-
 </div>
 
 <script>
-function deletePlayer(team, player) {
-  fetch(`/player/${team}/${player}`, {
-    method: 'DELETE',
-  })
-  .then(response => {
-    if (response.status === 200) {
-      // Remove the deleted player from the UI
-      const playerItem = document.querySelector(`li[data-team="${team}"][data-player="${player}"]`);
-      if (playerItem) {
-        playerItem.remove();
-      }
-      updateTeamsAndPlayers();
+    function deletePlayer(team, player) {
+        fetch(`/player/${team}/${player}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (response.status === 200) {
+                // Remove the deleted player from the UI
+                const playerItem = document.querySelector(`li[data-team="${team}"][data-player="${player}"]`);
+                if (playerItem) {
+                    playerItem.remove();
+                }
+                updateTeamsAndPlayers();
+            }
+        });
     }
-  });
-}
-function updateTeamsAndPlayers() {
-  // Fetch the updated team_data or re-render it from your data source
-  // Replace the entire "Teams and Players" section in the container
-  fetch('/get_teams_and_players')
-    .then(response => response.text())
-    .then(data => {
-      const container = document.getElementById('teamsAndPlayersContainer');
-      container.innerHTML = data;
-    });
-}
+
+    function updateTeamsAndPlayers() {
+        // Fetch the updated team_data or re-render it from your data source
+        // Replace the entire "Teams and Players" section in the container
+        fetch('/get_teams_and_players')
+            .then(response => response.text())
+            .then(data => {
+                const container = document.getElementById('teamsAndPlayersContainer');
+                container.innerHTML = data;
+            });
+    }
 </script>
 {% endblock %}

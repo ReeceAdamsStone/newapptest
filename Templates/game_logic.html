@@ -72,6 +72,7 @@ class CardManager {
     renderCard(card) {
         // Create HTML elements to represent the card and append them to the container
         const cardElement = document.createElement('div');
+        cardElement.classList.add('animate__animated', 'animate__fadeIn');
 
         const categoryMappings = {
             exam_skills_category: 'Exam Skills',
@@ -261,29 +262,50 @@ toggleScoreButtons() {
     }
 
 
+// Method to handle a pass event
+handlePass() {
+    if (this.isTurnSessionActive) {
+        this.updatePassScore(this.game.currentPlayer);
+        this.cardManager.generateRandomCard();  // Assuming generateRandomCard is a method in your Game class
 
-    // Method to handle a pass event
-    handlePass() {
-        
-        if (this.isTurnSessionActive) {
-            this.updatePassScore(this.game.currentPlayer);
-            this.cardManager.generateRandomCard();  // Assuming generateRandomCard is a method in your Game class
-        } else {
-            console.log("Game session is not active. Cannot add score.");
-        }
+        // Get the "Pass" button element
+        const passButton = document.getElementById('nextCardButton');  // Change the ID accordingly
+
+        // Add the wobble animation class
+        passButton.classList.add('animate__animated', 'animate__wobble');
+
+        // Remove the animation class after the animation is complete
+        passButton.addEventListener('animationend', () => {
+            passButton.classList.remove('animate__wobble');
+        });
+    } else {
+        console.log("Game session is not active. Cannot add score.");
     }
+}
 
 
 
-    // Method to handle a correct score event
-    handleCorrect() {
-        if (this.isTurnSessionActive) {
-            this.updateCorrectScore(this.game.currentPlayer);
-            this.cardManager.generateRandomCard();  // Assuming renderCard is a method in your Game class
-        } else {
-            console.log("Game session is not active. Cannot add score.");
-        }
+// Method to handle a correct score event
+handleCorrect() {
+    if (this.isTurnSessionActive) {
+        this.updateCorrectScore(this.game.currentPlayer);
+        this.cardManager.generateRandomCard();  // Assuming renderCard is a method in your Game class
+
+        // Get the "Add Score" button element
+        const addScoreButton = document.getElementById('generateCardButton');  // Change the ID accordingly
+
+        // Add the heartbeat animation class
+        addScoreButton.classList.add('animate__animated', 'animate__heartBeat');
+
+        // Remove the animation class after the animation is complete
+        addScoreButton.addEventListener('animationend', () => {
+            addScoreButton.classList.remove('animate__heartBeat');
+        });
+    } else {
+        console.log("Game session is not active. Cannot add score.");
     }
+}
+
 
     updatePlayerScores() {
         // Get the current player's name and scores from the game
