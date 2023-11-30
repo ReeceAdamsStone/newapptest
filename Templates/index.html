@@ -9,22 +9,14 @@
   
 </head>
 
-    <!-- <body class="w-full h-full bg-no-repeat bg-cover" style="background-image: url('{{ url_for('static', filename='WatercolourBG.png') }}');"> -->
-
-<body class="w-full h-full bg-no-repeat bg-cover" style="background-color: #f7fff7;
-background-image: url('{{ url_for('static', filename='architect.svg') }}');">
-
-    <!-- <body class="w-full h-full bg-no-repeat bg-[image] bg-cover bg-center" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'36\' height=\'72\' viewBox=\'0 0 36 72\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg fill=\'%2365a1c0\' fill-opacity=\'0.56\'%3E%3Cpath d=\'M2 6h12L8 18 2 6zm18 36h12l-6 12-6-12z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"> -->
-
-    <!-- <body class="bg-hero-pattern"> -->
-
-    <!-- <body class="w-full h-full bg-no-repeat bg-svg-background"> -->
-    
+<body class="w-full h-full bg-no-repeat bg-cover" style="background-color: #f7fff7">
 
 
-<!-- navbar -->
+
+
+
 <nav class="w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 bg-transparent">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6 bg-transparent"> <!-- Adjust padding as needed -->
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6 bg-transparent">
         <a href="{{ url_for('index') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="{{ url_for('static', filename='Cards-Logo.png') }}" class="h-10" alt="Say More Logo">
             <span class=" self-center text-2xl font-semibold whitespace-nowrap text-primary-col animate__animated animate__bounce">Say More</span>
