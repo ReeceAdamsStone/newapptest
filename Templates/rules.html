@@ -1,22 +1,17 @@
-{% extends 'testerbase.html' %}
+{% extends 'index.html' %}
 
 {% block header %}
-<header class="w3-container w3-white w3-center" style="padding:128px 16px">
-  <h1 class="w3-margin w3-jumbo"></h1>
-  <img src="{{ url_for('static', filename='logotest2nonbg.png') }}" alt="Articulate Online Logo">
-  <p class="w3-xlarge"></p>
-  <a href="{{ url_for('game_setup') }}"><button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started!</button></a>
-</header>
+
 {% endblock %}
 
 {% block content %}
 
 
 <!-- Game Concept -->
-<section class="bg-matt-white dark:bg-gray-900">
+<section class="">
   <div class="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
-      <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
-          <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">How a Game Works:</h2>
+      <div class="font-light text-primary-col sm:text-lg dark:text-gray-400">
+          <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-primary-col dark:text-white">How a Game Works:</h2>
           <p class="mb-4">The game of Say More relies upon your expertise as a communicator - explain the concept without using the name of the concept. <br>
             While the premise is simple, the tasks can be deceptively challenging as your ability to explain the content depends on both your knowledge of the content and your verbal articulation. You might know what is being referenced, but can you explain it to someone else?</p>
       </div>
@@ -28,10 +23,10 @@
 </section>
 
 
-<section class="bg-matt-white dark:bg-gray-900">
+<section class="">
   <div class="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
-      <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
-          <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"> </h2>
+      <div class="font-light text-primary-col sm:text-lg dark:text-gray-400">
+          <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-primary-col dark:text-white"> </h2>
           <p class="mb-4"></p>
       </div>
       <div class="grid grid-cols-2 gap-4 mt-8">
@@ -43,23 +38,6 @@
 
 
 
-  <!-- Second Grid -->
-  <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-    <div class="w3-content">
-      <div class="w3-third w3-center">
-        <i class="fa fa-coffee w3-padding-64 w3-text-teal w3-margin-right"></i>
-      </div>
-  
-      <div class="w3-twothird">
-        <h1>Why Say More?:</h1>
-        <h5 class="w3-padding-32"> .</h5>
-  
-        <p class="w3-text-grey"></p>
-      </div>
-    </div>
-  </div>
-  
-  <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-      <h1 class="w3-margin w3-xlarge"> Sample Text</h1>
-  </div>
+
+
 {% endblock %}

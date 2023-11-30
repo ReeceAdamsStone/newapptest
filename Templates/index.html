@@ -1,22 +1,131 @@
-<!DOCTYPE html>
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  
+</head>
 
-{% extends 'testerbase.html' %}
+    <!-- <body class="w-full h-full bg-no-repeat bg-cover" style="background-image: url('{{ url_for('static', filename='WatercolourBG.png') }}');"> -->
 
-{% block title %}Home Page{% endblock %}
+<body class="w-full h-full bg-no-repeat bg-cover" style="background-color: #f7fff7;
+background-image: url('{{ url_for('static', filename='architect.svg') }}');">
 
-{% block pageTitle %}<h1 class="text-center title"></h1>{% endblock %}
+    <!-- <body class="w-full h-full bg-no-repeat bg-[image] bg-cover bg-center" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'36\' height=\'72\' viewBox=\'0 0 36 72\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg fill=\'%2365a1c0\' fill-opacity=\'0.56\'%3E%3Cpath d=\'M2 6h12L8 18 2 6zm18 36h12l-6 12-6-12z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"> -->
 
-{% block pageDescription %}<p class="lead text-center"> </p>{% endblock %}
+    <!-- <body class="bg-hero-pattern"> -->
+
+    <!-- <body class="w-full h-full bg-no-repeat bg-svg-background"> -->
+    
 
 
+<!-- navbar -->
+<nav class="w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 bg-transparent">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6 bg-transparent"> <!-- Adjust padding as needed -->
+        <a href="{{ url_for('index') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="{{ url_for('static', filename='Cards-Logo.png') }}" class="h-10" alt="Say More Logo">
+            <span class=" self-center text-2xl font-semibold whitespace-nowrap text-primary-col animate__animated animate__bounce">Say More</span>
+        </a>
+        <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+            
+            <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-12 h-12 justify-center text-base text-space-cadet rounded-lg md:hidden  focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                <span class="sr-only">Open main menu</span>
+                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                </svg>
+            </button>
+        </div>
+        <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky bg-transparent">
+            <ul class="text-lg flex flex-col p-4 md:p-0 mt-4 font-medium border border-primary-col rounded-lg 0 md:space-x-14 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                <li>
+                    <a href="{{ url_for('index') }}" class="block py-3 px-4 text-primary-col bg-action rounded md:bg-transparent md:text-primary-col md:p-0 md:dark:text-blue-500" aria-current="page">Home</a>
+                </li>
+        
+                <li>
+                    <a href="{{ url_for('rules') }}" class="block py-3 px-4 text-primary-col rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary-col md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"> Rules </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('game_setup') }}" class="block py-3 px-4 text-primary-col rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary-col md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Game Setup </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('about_me') }}" class="block py-3 px-4 text-primary-col rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary-col md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About the Project </a>
+                </li>
+            </ul>
+       
+        
+        </div>
+    </div>
+</nav>
 
-{% block header %}
-   <!-- Header -->
-<header class="w3-container w3-white w3-center" style="padding:128px 16px">
-    <h1 class="w3-margin w3-jumbo"></h1>
-      <img src="{{ url_for('static', filename='logotest2nonbg.png') }}" alt="Articulate Online Logo">
-    <p class="w3-xlarge"></p>
-    <a href="{{ url_for('rules') }}"><button class="w3-button w3-black w3-padding-large w3-large w3-margin-top"> Rules</button></a>
-    <a href="{{ url_for('game_setup') }}"><button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started!</button></a>
-  </header>
+
+<!-- hero page content -->
+{%block content%} 
+
+
+<section class="h-screen dark:bg-gray-900 flex items-center justify-center bg-opacity-50">
+    <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+        <div class="mr-auto place-self-center lg:col-span-7 ">
+            <div class="">
+
+            <h1 class="card  p-4 max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl text-primary-col"> Communication can be tricky - saying more is always simple.</h1>
+
+            <p class="max-w-2xl mb-6 font-light text-primary-col lg:mb-8 md:text-lg lg:text-xl"> Say More is a team game that makes English revision easier. <br><br> Improve your knowledge of key concepts whilst competing with your peers. </p>
+            <a href="{{ url_for('game_setup') }}" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col">
+                Let's play!
+                <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </a>
+            <a href="{{ url_for('rules') }}" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col">
+                Rules and Explainers
+            </a> 
+        </div>
+     </div>
+    </section>
+
 {% endblock %}
+
+        
+
+        
+
+
+<!-- 
+            <div class="relative lg:mt-0 lg:col-span-5 lg:flex">
+                <img src="https://cdn.pixabay.com/photo/2012/04/26/19/07/spot-42879_1280.png" alt="Another Image" class="w-full h-auto">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <img src="{{ url_for('static', filename='Cards-Logo.png') }}" alt="Present with confidence" class="w-70 h-auto">
+                </div>
+            </div>
+             -->
+            
+            
+             
+{%block footer%}
+<footer class="rounded-lg shadow dark:bg-gray-900 m-4">
+    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <a href="#" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
+                <svg class="w-6 h-6  text-primary-col" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 15 15">
+                    <path fill-rule="evenodd" d="M7.979 5v1.586a3.5 3.5 0 0 1 3.082-1.574C14.3 5.012 15 7.03 15 9.655V15h-3v-4.738c0-1.13-.229-2.584-1.995-2.584-1.713 0-2.005 1.23-2.005 2.5V15H5.009V5h2.97ZM3 2.487a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" clip-rule="evenodd"/>
+                    <path d="M3 5.012H0V15h3V5.012Z"/>
+                  </svg>
+                <span class="self-center text-2xl font-semibold whitespace-nowrap text-primary-col">Created by RA </span>
+            </a>
+            <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+                <!-- Your navigation links here -->
+            </ul>
+        </div>
+        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="#" class="hover:underline">Adams Industries™</a>. All Rights Reserved.</span>
+    </div>
+</footer>
+{%endblock%}
+
+                          
+
+
+  
+</body>
+</html>

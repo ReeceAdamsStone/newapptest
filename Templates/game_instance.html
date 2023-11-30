@@ -1,4 +1,4 @@
-{% extends 'testerbase.html' %}
+{% extends 'index.html' %}
 
 {% block title %} {% endblock %}
 
@@ -13,36 +13,35 @@
         
         <!-- Content for column 1 -->
         
-          <div class="flex justify-between p-4">
-              <div class="w-1/4 p-4 rounded-md">
-                  <!-- Content for row 1 in column 1 -->
-
-                  <!-- Scoreboard -->
-                  <div class="p-4 rounded-md">
-                      
-                      <table class="w-full animate__animated animate__zoomInDown">
-                          <thead>
-                              <tr>
-                                  <th>Player</th>
-                                  <th>Passes</th>
-                                  <th>Corrects</th>
-                              </tr>
-                          </thead>
-                          <tbody id="scoreTableBody">
-                              <!-- Player scores will be dynamically added here -->
-                          </tbody>
-                      </table>
-                  </div>
+        <div class="flex justify-between p-4">
+            <div class="w-1/4 p-4 rounded-md">
+                <!-- Content for row 1 in column 1 -->
+        
+                <!-- Scoreboard -->
+                <div class="p-4 rounded-md">
+                    <table class="w-full animate__animated animate__zoomInDown">
+                        <thead>
+                            <tr>
+                                <th class="text-primary-col">Player</th>
+                                <th class="text-primary-col">Passes</th>
+                                <th class="text-primary-col">Corrects</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoreTableBody" class="text-primary-col">
+                            <!-- Player scores will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
 
                   <div class="mt-6">
                     <!-- Content for row 2 in column 1 -->
                       <div class="text-left mt-40">
-                          <div id="currentPlayer" class="animate__animated animate__zoomInDown">Current Player: Your name will appear here when it is your turn</div>
-                          <div id="nextPlayer" class="animate__animated animate__zoomInDown">Next Player: Your name will appear here when it is your turn next</div>
-                          <div id="gameStatusMessage"> </div>
-                          <div id="countdownTimer"> </div>
-                          <p id="modalMessage"> </p>
-                          <div id="timeLimitElement" style="display: none;">  </div>
+                          <div id="currentPlayer" class="text-primary-col animate__animated animate__zoomInDown">Current Player: Your name will appear here when it is your turn</div>
+                          <div id="nextPlayer" class="text-primary-col animate__animated animate__zoomInDown">Next Player: Your name will appear here when it is your turn next</div>
+                          <div id="gameStatusMessage" class="text-primary-col"> </div>
+                          <div id="countdownTimer" class="text-primary-col"> </div>
+                          <p id="modalMessage" class="text-primary-col"> </p>
+                          <div id="timeLimitElement" class="text-primary-col" style="display: none;">  </div>
                       </div>
                   </div>
               </div>
@@ -52,30 +51,30 @@
                   <div class="mt-6">
                       <!-- Content for row 1 in column 2 -->
                       <div class=" flex flex-col items-center">
-                      <button id="startGameButton" class="bg-green-500 text-black px-4 py-2 rounded mt-5 animate__animated animate__zoomInDown">Ready to start?</button> 
-                      <button id="nextTurnButton" class="bg-green-500 text-black px-4 py-2 rounded mt-5 animate__animated animate__zoomInDown">Next player ready?</button>
-                      <div id="currentCategoryDisplay" class="px-4 py-2 rounded mt-10"> </div>
+                      <button id="startGameButton" class=" text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col px-4 py-2 mt-5 animate__animated animate__zoomInDown">Ready to start?</button> 
+                      <button id="nextTurnButton" class=" text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col px-4 py-2 mt-5 animate__animated animate__zoomInDown">Next player ready?</button>
+                      <div id="currentCategoryDisplay" class="px-4 py-2 rounded mb-20 text-primary-col fs-5"> </div>
                   </div>
                 </div>
 
                   <!-- Row 2 in column 2 -->
                   <div class="">
                       <div class="mt-30 flex items-center justify-center h-40 text-lg">
-                          <div id="cardContainer"> </div>
+                          <div id="cardContainer" class="card text-primary-col rounded-lg bg-neutral p-4 border border-primary-col w-50"></div>
                       </div>
                   </div>
   
                   <!-- Row 3 in column 2 -->
                   <div class="mt-20">
-                      <button id="generateCardButton" class="bg-blue-500 text-black px-4 py-2 rounded mr-auto">Add a Score</button>
-                      <button id="nextCardButton" class="bg-blue-500 text-black px-4 py-2 rounded ml-auto">Pass a Card</button>
-                      <div id="winnerMessage"> </div>
+                      <button id="generateCardButton" class="text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col px-4 py-2 mr-auto">Add a Score</button>
+                      <button id="nextCardButton" class="text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col px-4 py-2 ml-auto">Pass a Card</button>
+                      <div id="winnerMessage" class="text-primary-col"> </div>
                   </div>
               </div>
 
               <div class="w-1/4 p-4 rounded-md">
                   <!-- Content for column 3 -->
-                  <button id="revealWinnersButton" class="bg-green-500 text-black px-4 py-2 rounded">Reveal Winners</button>
+                  <button id="revealWinnersButton" class=" text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col px-4 py-2">Reveal Winners</button>
 
                   <div class="mt-0">
                       <!-- Content for row 1 in column 3 -->
@@ -85,8 +84,8 @@
                           <div class="p-4 rounded-md animate__animated animate__zoomInDown">
                               
                               <div>
-                                  <button id="settingsButton" class="bg-blue-500 text-black px-4 py-2 rounded">Show Settings</button>
-                                  <div id="settingsContent" style="display: none;">
+                                  <button id="settingsButton" class=" text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col px-4 py-2">Show Settings</button>
+                                  <div id="settingsContent" class=" text-primary-col" style="display: none;">
                                       <p>Number of Teams: <span id="num-teams">{{ game_settings.num_teams }}</span></p>
                                       <p>Game Mode: <span id="game-mode">{{ game_settings.game_mode}}</span></p>
                                       <p>Number of Rounds:
@@ -116,7 +115,7 @@
 
 
         <script>
-            // Instantiate the Game, CardManager, and Scorer classes
+            // Instantiate the class objects
             const game = new Game();
             const cardManager = new CardManager('cardContainer'); // Replace 'cardContainer' with the actual ID of your card container
             const scorer = new Scorer(game, cardManager, "nextCardButton", "generateCardButton", game.currentPlayer);
@@ -141,6 +140,7 @@
                 startASession();
                 console.log("Start game button pressed");
             });
+
 
             if (revealWinnersButton) {
                 revealWinnersButton.addEventListener("click", () => {

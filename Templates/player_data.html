@@ -1,4 +1,4 @@
-{% extends "testerbase.html" %}
+{% extends "index.html" %}
 
 {% block title %}Game Setup{% endblock %}
 
@@ -16,18 +16,18 @@
 <div class="container mx-auto">
     <div class="grid grid-cols-4 gap-4">
         <!-- Leftmost column -->
-        <div class="col-span-1">
+        <div class="col-span-1 ">
             <div class="mt-8">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Teams and Players:</h3>
+                <h3 class="text-lg font-medium leading-6 text-primary-col pl-30">Teams and Players:</h3>
                 <div id="teamsAndPlayersContainer" class="align-text-top">
                     {% for team_num, players in team_data.items() %}
-                        <p class="mt-4">Team {{ team_num }} :</p>
-                        <ul class="list-disc pl-8">
+                        <p class="mt-4 text-primary-col pl-30">Team {{ team_num }} :</p>
+                        <ul class="list-disc "> <!-- Increased left margin for the list -->
                             {% for player in players %}
                                 <li class="mb-2">
-                                    <span class="text-lg leading-5">{{ player }}</span>
+                                    <span class="text-lg leading-5 text-primary-col">{{ player }}</span>
                                     <form onsubmit="deletePlayer('{{ team_num }}', '{{ player }}'); return false;" class="inline-block">
-                                        <button type="submit" class="ml-2 px-2 py-1 text-lg font-medium text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:border-red-700 focus:ring focus:ring-red-200 focus:ring-opacity-50">Remove</button>
+                                        <button type="submit" class="ml-2 px-2 py-1 text-lg font-medium text-white bg-primary-700 rounded-md hover:bg-gray-100 focus:outline-none focus:border-primary-700 focus:ring focus:ring-primary-300 focus:ring-opacity-50">Remove</button>
                                     </form>
                                 </li>
                             {% endfor %}
@@ -41,11 +41,11 @@
         <div class="col-span-2">
             <!-- Form to add a player to a specific team -->
             <form method="POST" action="/add_player_to_team" class="mt-20" style="max-width: 400px; margin: 0 auto; text-align: center;">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Add a Player to a Team:</h3>
+                <h3 class="text-lg font-medium leading-6 text-primary-col mt-10">Add a Player to a Team:</h3>
 
                 <div class="mt-4">
-                    <label for="team_select" class="block text-lg font-medium leading-5 text-gray-900">Select a Team:</label>
-                    <select id="team_select" name="team" class="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-5">
+                    <label for="team_select" class="block text-lg font-medium leading-5 text-primary-col my-5">Select a Team:</label>
+                    <select id="team_select" name="team" class="block w-full rounded-md border-0 py-1.5 text-primary-col shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary-col sm:text-base sm:leading-6 bg-neutral">
                         {% for team in range(1, num_teams + 1) %}
                             <option value="{{ team }}">Team {{ team }}</option>
                         {% endfor %}
@@ -53,15 +53,15 @@
                 </div>
 
                 <div class="mt-4">
-                    <label for="player_name" class="block text-lg font-medium leading-5 text-gray-900">Player Name:</label>
-                    <input type="text" id="player_name" name="player_name" required class="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-5">
+                    <label for="player_name" class="block text-lg font-medium leading-5 text-primary-col  text-center my-5">Player Name:</label>
+                    <input type="text" id="player_name" name="player_name" required class="block w-full rounded-md border-0 py-1.5  text-primary-col shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary-col sm:text-base sm:leading-6 bg-neutral">
                 </div>
 
-                <div class="mt-6 flex items-center justify-center gap-x-6">
-                    <button type="submit" class="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-center text-black bg-primary-700 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">Add Player to Team</button>
+                <div class="mt-20 flex items-center justify-center gap-x-6">
+                    <button type="submit" class="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-center text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col">Add Player to Team</button>
                 </div>
                 <div>
-                  <a href="{{ url_for('game_instance') }}" class="inline-flex items-center justify-center px-8 py-3 mt-4 text-base font-medium text-center text-black bg-green-500 rounded-lg hover:bg-green-600 focus:ring-4 focus:ring-green-100 focus:outline-none focus:border-green-700 focus:ring-opacity-50">Start Game!</a>
+                  <a href="{{ url_for('game_instance') }}" class="inline-flex items-center justify-center px-8 py-3 mt-4 text-base font-medium text-center  text-primary-col rounded-lg bg-action hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 border border-primary-col">Start Game!</a>
               </div>
             </form>
 

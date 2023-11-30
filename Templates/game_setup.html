@@ -1,13 +1,13 @@
-{% extends 'testerbase.html' %}
+{% extends 'index.html' %}
 
 {% block pageTitle %}<h1 class="text-center title" style="font-size: 120%;">Game Setup</h1>{% endblock %}
 
 {% block header %}  {% endblock %}
 
-{% block pageDescription %}<p class="lead text-center" style="font-size: 120%;">Configure your game</p>{% endblock %}
+{% block pageDescription %} {% endblock %}
 
 {% block content %}
-<div class=" bg-white container mx-auto">
+<div class=" container mx-auto">
 
         <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-2"></div>
@@ -17,38 +17,40 @@
 
                     <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div class="sm:col-span-8">
-                            <label for="{{ game_setup_form.game_mode.id }}" class="block text-lg font-medium leading-6 text-gray-900 text-center mt-2 my-5">Game Mode</label>
-                            {{ game_setup_form.game_mode(class="block w-full rounded-md border-0 py-2.2 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6") }}
+                            <label for="{{ game_setup_form.game_mode.id }}" class="block text-lg font-medium leading-6 text-primary-col text-center mt-2 my-5">Game Mode</label>
+                            {{ game_setup_form.game_mode(class="block w-full rounded-md border-1 py-2.2 text-primary-col shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary-col sm:text-base sm:leading-6 bg-neutral") }}
                         </div>
 
                         <div class="sm:col-span-8">
-                            <label for="{{ game_setup_form.num_teams.id }}" class="block text-lg font-medium leading-6 text-gray-900 text-center my-5">Number of Teams</label>
-                            {{ game_setup_form.num_teams(class="block w-full rounded-md border-0 py-2.2 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6") }}
+                            <label for="{{ game_setup_form.num_teams.id }}" class="block text-lg font-medium leading-6 text-primary-col text-center my-5">Number of Teams</label>
+                            {{ game_setup_form.num_teams(class="block w-full rounded-md border-1 py-2.2 text-primary-col shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary-col sm:text-base sm:leading-6 bg-neutral") }}
                         </div>
 
                         <div class="sm:col-span-8">
-                            <label for="{{ game_setup_form.time_limit.id }}" class="block text-lg font-medium leading-6 text-gray-900 text-center my-5">Time Limit</label>
-                            {{ game_setup_form.time_limit(class="block w-full rounded-md border-0 py-2.2 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6") }}
+                            <label for="{{ game_setup_form.time_limit.id }}" class="block text-lg font-medium leading-6 text-primary-col  text-center my-5">Time Limit</label>
+                            {{ game_setup_form.time_limit(class="block w-full rounded-md border-1 py-2.2 text-primary-col shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary-col sm:text-base sm:leading-6 bg-neutral") }}
                         </div>
 
                         <div class="sm:col-span-8">
-                            <label for="{{ game_setup_form.game_type.id }}" class="block text-lg font-medium leading-6 text-gray-900 text-center my-5">Game Type</label>
-                            {{ game_setup_form.game_type(class="block w-full rounded-md border-0 py-2.2 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6") }}
+                            <label for="{{ game_setup_form.game_type.id }}" class="block text-lg font-medium leading-6 text-primary-col  text-center my-5">Game Type</label>
+                            {{ game_setup_form.game_type(class="block w-full rounded-md border-1 py-2.2 text-primary-col shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary-col sm:text-base sm:leading-6 bg-neutral") }}
                         </div>
 
                         <div class="sm:col-span-8">
-                            <label for="{{ game_setup_form.num_rounds.id }}" class="block text-lg font-medium leading-6 text-gray-900 text-center my-5">Number of Rounds</label>
-                            {{ game_setup_form.num_rounds(class="block w-full rounded-md border-0 py-2.2 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6") }}
+                            <label for="{{ game_setup_form.num_rounds.id }}" class="block text-lg font-medium leading-6 text-primary-col text-center my-5">Number of Rounds</label>
+                            {{ game_setup_form.num_rounds(class="block w-full rounded-md border-1 py-2.2 text-primary-col shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary-col sm:text-base sm:leading-6 bg-neutral") }}
                         </div>
 
                         <div class="sm:col-span-8">
-                            <label for="{{ game_setup_form.category.id }}" class="block text-lg font-medium leading-6 text-gray-900 text-center my-5">Category</label>
-                            {{ game_setup_form.category(class="block w-full rounded-md border-0 py-2.2 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6") }}
+                            <label for="{{ game_setup_form.category.id }}" class="block text-lg font-medium leading-6 text-primary-col  text-center my-5">Category</label>
+                            {{ game_setup_form.category(class="block w-full rounded-md border-1 py-2.2 text-primary-col shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary-col sm:text-base sm:leading-6 bg-neutral") }}
                         </div>
                     </div>
+
                     <div class="mt-6 flex items-center justify-center gap-x-6">
-                        <button type="submit" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-black bg-primary-700 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">Submit Game Setup</button>
+                        <button type="submit" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-primary-col bg-action rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800 border border-primary-col">Submit Game Setup</button>
                     </div>
+                    
                 </form>
             </div>
             <div class="sm:col-span-2"></div>
