@@ -4,6 +4,11 @@ module.exports = {
     "./templates/**/*.html",
     "./static/src/**/*.js"
   ],
+
+  purge: [
+    './templates/**/*.html',
+  ],
+  
   
   theme: { 
     extend: { 
