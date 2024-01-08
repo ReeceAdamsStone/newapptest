@@ -762,7 +762,7 @@ class Timer {
 
         if (this.seconds <= 0) {
             const data = await this.fetchSessionData();
-            this.roundTimer = 3
+            this.roundTimer = data.game_setup_data.time_limit
             // data.game_setup_data.time_limit
             document.getElementById('countdownTimer').style.display = 'block';
             this.showTimerMessage(" ");
